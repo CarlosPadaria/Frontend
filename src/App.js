@@ -27,10 +27,10 @@ const App = () => {
     <KeyboardAvoidingView style={styles.background}>
       <View style={styles.logoContainer}>
         <Image
-          source={require('./images/teste2.png')}
+          source={require('../images/logo.png')}
           style={{
             width: 260,
-            height: 100,  
+            height: 110,
           }}></Image>
       </View>
 
@@ -40,6 +40,7 @@ const App = () => {
         style={styles.input}
         autoCorrect={false} 
         autoComplete={'email'}
+        maxLength={150}
         />
         <Icon name='mail' style={styles.IconEmail} size={25}></Icon>
         <TextInput 
@@ -47,11 +48,17 @@ const App = () => {
         style={styles.input} 
         autoComplete={'password'}
         secureTextEntry={true}
+        maxLength={32}
         />
         <Icon name='lock' style={styles.IconSenha} size={29}></Icon>
         <Text></Text>
         <TouchableOpacity style={styles.btnSubmit}>
           <Text style={styles.submitText}>Acessar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnRegister}>
+          <Text style={styles.createAccountText}>
+            Criar conta gratuita
+          </Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -59,6 +66,12 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+  btnRegister:{
+    marginTop: 10
+  },
+  createAccountText:{
+    color: '#000000'
+  },
   IconEmail:{
     position: 'absolute',
     top: 13,
@@ -92,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     width: '90%',
     marginBottom: 15,
-    color: '#343434',
+    color: '#000000',
     fontSize: 17,
     padding: 10,
     borderBottomWidth: 2,
