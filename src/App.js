@@ -29,12 +29,23 @@ const App = () => {
         name="Login"
         component={Login}
         options={{
-          headerShown: false
+          headerShown: false,
           }}
       />
       <Stack.Screen
         name="Cadastro"
         component={Cadastro}
+        options={{headerTransparent: true, headerShadowVisible: false, title: ''}}
+          /*title: "",
+          headerStyle:{
+            backgroundColor: 'translucent'
+          },
+        
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}*/
       />
       </Stack.Navigator>
       </NavigationContainer>

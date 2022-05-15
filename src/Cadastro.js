@@ -13,8 +13,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-// refactor all the code using clean code
-
+// rename the variable names to better names
+/*
+setStyleInputNome({
+          ...styleInputNome,
+          borderColor: '#00ff00',
+          borderWidth: 1,
+        });
+*/
 const Cadastro = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -24,159 +30,185 @@ const Cadastro = () => {
   const [mensagemEmail, setMensagemEmail] = useState('');
   const [mensagemSenha, setMensagemSenha] = useState('');
   const [mensagemConfirmarSenha, setMensagemConfirmarSenha] = useState('');
+  const [styleInputNome, setStyleInputNome] = useState(styles.inputNome);
+  const [styleInputEmail, setStyleInputEmail] = useState(styles.inputEmail);
+  const [styleInputSenha, setStyleInputSenha] = useState(styles.inputSenha);
+  const [styleInputConfirmarSenha, setStyleInputConfirmarSenha] = useState(
+    styles.inputConfirmarSenha,
+  );
+  
   const patternNome =
     /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,'-]+$/u;
   const patternEmail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const patternNome2 = /^[^ ][\w\W ]*[^ ]/;
 
-  // when screen loads it will not run the useEffect
+  //change MensagemNome to 'Você precisa preencher este campo' if nome is empty
 
-  useEffect(() => {
-    //setNome(nome.replace(/\s+$/, ''));
-    // || !(nome.replace(/\s+/g, ' ').trim() == nome "USAR DEPOIS NO BACKEND"
-    //console.log(nome)
-    //console.log(patternNome2.test(nome))
+  const handleValidarNome = () =>{
+    let Valido = true;
     if (nome === '') {
       setMensagemNome('');
+      setStyleInputNome({
+        ...styleInputNome,
+        borderColor: '#000000',
+      });
     } else if (nome.length < 3 || !patternNome.test(nome)) {
-      styles.inputNome = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
+      setStyleInputNome({
+        ...styleInputNome,
         borderColor: '#ff0000',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
-      setMensagemNome('Deve possuir pelo menos 3 caractéres');
-      console.log('nome invalido');
+      });
+      setMensagemNome('Pelo menos 3 caractéres, sem caractéres especiais');
+      Valido = false;
     } else {
-      styles.inputNome = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
+      setStyleInputNome({
+        ...styleInputNome,
         borderColor: '#00ff00',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
+      });
       setMensagemNome('');
     }
+  }
+
+  const handleValidarEmail = () =>{
+    setEmail(email.replace(/ /g, ''));
+    let Valido = true;
+    if (email === '') {
+      setMensagemEmail('');
+      setStyleInputEmail({
+        ...styleInputEmail,
+        borderColor: '#000000',
+      });
+    } else if (!patternEmail.test(email)) {
+      setStyleInputEmail({
+        ...styleInputEmail,
+        borderColor: '#ff0000',
+      });
+      setMensagemEmail('Você precisa usar um e-mail válido');
+      Valido = false;
+    } else {
+      setStyleInputEmail({
+        ...styleInputEmail,
+        borderColor: '#00ff00',
+      });
+      setMensagemEmail('');
+    }
+    return Valido;
+  }
+  const handleValidarSenha = () =>{
+    let Valido = true;
+    if (senha === '') {
+      setMensagemSenha('');
+      setStyleInputSenha({
+        ...styleInputSenha,
+        borderColor: '#000000',
+      });
+    } else if (senha.length < 6) {
+      setStyleInputSenha({
+        ...styleInputSenha,
+        borderColor: '#ff0000',
+      });
+      setMensagemSenha('Pelo menos 6 caractéres');
+      Valido = false;
+    } else {
+      setStyleInputSenha({
+        ...styleInputSenha,
+        borderColor: '#00ff00',
+      });
+      setMensagemSenha('');
+    }
+    return Valido;
+  }
+
+  const handleValidarConfirmarSenha = () =>{
+    let Valido = true;
+    if (confimarSenha === '') {
+      setStyleInputConfirmarSenha({
+        ...styleInputConfirmarSenha,
+        borderColor: '#000000',
+      });
+      setMensagemConfirmarSenha('');
+    } else if (senha != confimarSenha) {
+      setStyleInputConfirmarSenha({
+        ...styleInputSenha,
+        borderColor: '#ff0000',
+      });
+      Valido = false;
+      setMensagemConfirmarSenha('A senhas precisam ser identicas');
+    } else {
+      setStyleInputConfirmarSenha({
+        ...styleInputConfirmarSenha,
+        borderColor: '#00ff00',
+      });
+      setMensagemConfirmarSenha('');
+    }
+    return Valido;
+  }
+  useEffect(() => {
+    handleValidarNome();
   }, [nome]);
 
   useEffect(() => {
-    //console.log('debugando o email');
-    setEmail(email.replace(/ /g, ''));
-    if (email === '') {
-      setMensagemEmail('');
-    } else if (!patternEmail.test(email)) {
-      styles.inputEmail = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
-        borderColor: '#ff0000',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
-      setMensagemEmail('Você precisa usar um e-mail válido');
-    } else {
-      styles.inputEmail = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
-        borderColor: '#00ff00',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
-      setMensagemEmail('');
-    }
+    handleValidarEmail();
   }, [email]);
 
   useEffect(() => {
-    if (senha === '') {
-      setMensagemSenha('');
-    } else if (senha.length < 6) {
-      styles.inputSenha = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
-        borderColor: '#ff0000',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
-      setMensagemSenha('A Senha deve conter pelo menos 6 caractéres');
-    } else {
-      styles.inputSenha = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
-        borderColor: '#00ff00',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
-      setMensagemSenha('');
-    }
+    handleValidarSenha();
   }, [senha]);
 
   useEffect(() => {
-    if (confimarSenha === '') {
-      setMensagemConfirmarSenha('');
-    } else if (senha != confimarSenha) {
-      styles.inputConfirmarSenha = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
-        borderColor: '#ff0000',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
-      setMensagemConfirmarSenha('A senhas precisam ser identicas');
-    } else {
-      styles.inputConfirmarSenha = {
-        backgroundColor: '#ffffff',
-        width: '90%',
-        marginBottom: 15,
-        color: '#000000',
-        fontSize: 17,
-        padding: 10,
-        borderBottomWidth: 2,
-        borderColor: '#00ff00',
-        fontFamily: 'Outfit-Regular',
-        paddingLeft: 40,
-      };
-      setMensagemConfirmarSenha('');
-    }
+    handleValidarConfirmarSenha();
   }, [confimarSenha]);
 
+  const handleSubmit = () => {
+
+    let Valido = true;
+
+    if (nome === ''){
+      setStyleInputNome({
+        ...styleInputNome,
+        borderColor: '#ff0000',
+      });
+      setMensagemNome('Você precisa preencher este campo');
+      Valido = false;
+    }
+
+    if (email === ''){
+      setStyleInputEmail({
+        ...styleInputEmail,
+        borderColor: '#ff0000'
+      })
+      setMensagemEmail('Você precisa preencher este campo')
+      Valido = false;
+    }
+
+    if(senha === ''){
+      setStyleInputSenha({
+        ...styleInputSenha,
+        borderColor: '#ff0000'
+      })
+      setMensagemSenha('Você precisa preencher este campo')
+      Valido = false;
+    }
+
+    if(confimarSenha === ''){
+      setStyleInputConfirmarSenha({
+        ...styleInputConfirmarSenha,
+        borderColor: '#ff0000'
+      })
+      Valido = false;
+      setMensagemConfirmarSenha('Você precisa preencher este campo')
+    }
+
+    if(!handleValidarNome || !handleValidarEmail || !handleValidarSenha || !handleValidarConfirmarSenha){
+      Valido = false;
+    }
+
+    
+    
+
+  }
   return (
-    <View style={styles.background}>
+    <KeyboardAvoidingView style={styles.background}>
       <View style={styles.logoContainer}>
         <Image
           source={require('../images/logo.png')}
@@ -189,7 +221,7 @@ const Cadastro = () => {
       <View style={styles.container}>
         <TextInput
           placeholder="Nome"
-          style={styles.inputNome}
+          style={styleInputNome}
           autoCorrect={false}
           autoComplete={'name'}
           maxLength={145}
@@ -201,7 +233,7 @@ const Cadastro = () => {
 
         <TextInput
           placeholder="Email"
-          style={styles.inputEmail}
+          style={styleInputEmail}
           autoCorrect={false}
           autoComplete={'email'}
           //autoFocus={true}
@@ -215,7 +247,7 @@ const Cadastro = () => {
         <Icon name="user" style={styles.IconUser} size={25}></Icon>
         <TextInput
           placeholder="Senha"
-          style={styles.inputSenha}
+          style={styleInputSenha}
           autoComplete={'password'}
           secureTextEntry={true}
           onChangeText={setSenha}
@@ -229,7 +261,7 @@ const Cadastro = () => {
 
         <TextInput
           placeholder="Confirmar Senha"
-          style={styles.inputConfirmarSenha}
+          style={styleInputConfirmarSenha}
           autoComplete={'password'}
           value={confimarSenha}
           onChangeText={setConfirmarSenha}
@@ -244,36 +276,56 @@ const Cadastro = () => {
 
         <Icon name="lock" style={styles.IconConfirmarSenha} size={29}></Icon>
         <Text></Text>
-        <TouchableOpacity style={styles.btnSubmit}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={handleSubmit}>
           <Text style={styles.submitText}>Cadastrar-Se</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    width: '90%',
+    paddingBottom: 280,
+    backgroundColor: '#ffffff',
+  },
+  logoContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   mensagemSenha: {
-    right: 12,
+   // right: 12,
+   //flex:1,
+   justifyContent: 'flex-start',
     color: '#ff0000',
   },
   mensagemConfirmarSenha: {
-    right: 55,
+    justifyContent: 'flex-start',
     color: '#ff0000',
   },
   mensagemNome: {
-    right: 39,
+    justifyContent: 'flex-start',
     color: '#ff0000',
   },
   mensagemEmail: {
-    right: 46,
+    justifyContent: 'flex-start',
     color: '#ff0000',
   },
-  btnRegister: {
-    marginTop: 10,
-  },
-  createAccountText: {
+  inputNome: {
+    backgroundColor: '#ffffff',
+    width: '90%',
+    marginBottom: 15,
     color: '#000000',
+    fontSize: 17,
+    padding: 10,
+    borderBottomWidth: 2,
+    borderColor: '#000000',
+    fontFamily: 'Outfit-Regular',
+    paddingLeft: 40,
   },
   inputEmail: {
     backgroundColor: '#ffffff',
@@ -287,6 +339,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-Regular',
     paddingLeft: 40,
   },
+
   inputSenha: {
     backgroundColor: '#ffffff',
     width: '90%',
@@ -337,43 +390,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#ffffff',
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    // justifyContent: 'center',
-    width: '90%',
-    paddingBottom: 250,
-    backgroundColor: '#ffffff',
-  },
-  logoContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    backgroundColor: '#ffffff',
-    width: '90%',
-    marginBottom: 15,
-    color: '#EBEBEB',
-    fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-    borderColor: '#000000',
-    fontFamily: 'Outfit-Regular',
-    paddingLeft: 40,
-  },
-  inputNome: {
-    backgroundColor: '#ffffff',
-    width: '90%',
-    marginBottom: 15,
-    color: '#000000',
-    fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-    borderColor: '#000000',
-    fontFamily: 'Outfit-Regular',
-    paddingLeft: 40,
-  },
+  // fix the position of the icons when keyboard is up
   btnSubmit: {
     backgroundColor: '#48BF84',
     width: '90%',
