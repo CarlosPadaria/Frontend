@@ -40,7 +40,7 @@ const Login = ({navigation}) => {
           style={styles.input}
           autoCorrect={false} 
           autoComplete={'email'}
-          maxLength={145}
+          maxLength={100}
         />
         <Icon name='mail' style={styles.IconEmail} size={25}></Icon>
         <TextInput 

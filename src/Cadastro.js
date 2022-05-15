@@ -12,15 +12,9 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
+import Api from './Api';
 import Icon from 'react-native-vector-icons/AntDesign';
-// rename the variable names to better names
-/*
-setStyleInputNome({
-          ...styleInputNome,
-          borderColor: '#00ff00',
-          borderWidth: 1,
-        });
-*/
+
 const Cadastro = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -36,16 +30,23 @@ const Cadastro = () => {
   const [styleInputConfirmarSenha, setStyleInputConfirmarSenha] = useState(
     styles.inputConfirmarSenha,
   );
-  
   const patternNome =
     /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,'-]+$/u;
   const patternEmail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const patternNome2 = /^[^ ][\w\W ]*[^ ]/;
+  const [response, setResponse] = useState({});
+  const [carregando, setCarregando] = useState(false);
 
   //change MensagemNome to 'Você precisa preencher este campo' if nome is empty
-
-  const handleValidarNome = () =>{
+  // create a function that remove unecessary spaces from a string including extra spaces in the end and in the start
+  const removerEspacos = (str) => {
+    str = str.replace(/^\s+/g, '');
+    str = str.replace(/\s+$/g, '');
+    str = str.replace(/\s+/g, ' ');
+    return str;
+  }
+  const handleValidarNome = () => {
     let Valido = true;
     if (nome === '') {
       setMensagemNome('');
@@ -67,9 +68,10 @@ const Cadastro = () => {
       });
       setMensagemNome('');
     }
-  }
+    return Valido
+  };
 
-  const handleValidarEmail = () =>{
+  const handleValidarEmail = () => {
     setEmail(email.replace(/ /g, ''));
     let Valido = true;
     if (email === '') {
@@ -93,8 +95,8 @@ const Cadastro = () => {
       setMensagemEmail('');
     }
     return Valido;
-  }
-  const handleValidarSenha = () =>{
+  };
+  const handleValidarSenha = () => {
     let Valido = true;
     if (senha === '') {
       setMensagemSenha('');
@@ -117,9 +119,9 @@ const Cadastro = () => {
       setMensagemSenha('');
     }
     return Valido;
-  }
+  };
 
-  const handleValidarConfirmarSenha = () =>{
+  const handleValidarConfirmarSenha = () => {
     let Valido = true;
     if (confimarSenha === '') {
       setStyleInputConfirmarSenha({
@@ -142,7 +144,7 @@ const Cadastro = () => {
       setMensagemConfirmarSenha('');
     }
     return Valido;
-  }
+  };
   useEffect(() => {
     handleValidarNome();
   }, [nome]);
@@ -160,10 +162,10 @@ const Cadastro = () => {
   }, [confimarSenha]);
 
   const handleSubmit = () => {
-
+    
     let Valido = true;
 
-    if (nome === ''){
+    if (nome === '') {
       setStyleInputNome({
         ...styleInputNome,
         borderColor: '#ff0000',
@@ -172,117 +174,139 @@ const Cadastro = () => {
       Valido = false;
     }
 
-    if (email === ''){
+    if (email === '') {
       setStyleInputEmail({
         ...styleInputEmail,
-        borderColor: '#ff0000'
-      })
-      setMensagemEmail('Você precisa preencher este campo')
+        borderColor: '#ff0000',
+      });
+      setMensagemEmail('Você precisa preencher este campo');
       Valido = false;
     }
 
-    if(senha === ''){
+    if (senha === '') {
       setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#ff0000'
-      })
-      setMensagemSenha('Você precisa preencher este campo')
+        borderColor: '#ff0000',
+      });
+      setMensagemSenha('Você precisa preencher este campo');
       Valido = false;
     }
 
-    if(confimarSenha === ''){
+    if (confimarSenha === '') {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
-        borderColor: '#ff0000'
-      })
+        borderColor: '#ff0000',
+      });
       Valido = false;
-      setMensagemConfirmarSenha('Você precisa preencher este campo')
+      setMensagemConfirmarSenha('Você precisa preencher este campo');
     }
 
-    if(!handleValidarNome || !handleValidarEmail || !handleValidarSenha || !handleValidarConfirmarSenha){
-      Valido = false;
+    console.log(handleValidarNome())
+    console.log(handleValidarEmail())
+    console.log(handleValidarSenha())
+    console.log(handleValidarConfirmarSenha())
+    if (
+      !handleValidarNome ||
+      !handleValidarEmail ||
+      !handleValidarSenha ||
+      !handleValidarConfirmarSenha
+    ) {
+        Valido = false;
+      }
+
+    if (Valido === true) {
+      console.log("Valido")
+      let data = {
+        NOME: removerEspacos(nome),
+        EMAIL: email,
+        SENHA: senha,
+      };
+      const RealizarCadastro = async () => {
+        setResponse(await Api.post('/usuarios', data));
+        console.log(response.data)
+      }
+      setCarregando(true)
+      RealizarCadastro();
+      console.log(response)
+      setCarregando(false)
     }
-
-    
-    
-
   }
-  return (
-    <KeyboardAvoidingView style={styles.background}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('../images/logo.png')}
-          style={{
-            width: 260,
-            height: 110,
-          }}></Image>
-      </View>
+    return (
+      <KeyboardAvoidingView style={styles.background}>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../images/logo.png')}
+            style={{
+              width: 260,
+              height: 110,
+            }}></Image>
+        </View>
 
-      <View style={styles.container}>
-        <TextInput
-          placeholder="Nome"
-          style={styleInputNome}
-          autoCorrect={false}
-          autoComplete={'name'}
-          maxLength={145}
-          value={nome}
-          onChangeText={setNome}
-        />
+        <View style={styles.container}>
+          <TextInput
+            placeholder="Nome"
+            style={styleInputNome}
+            autoCorrect={false}
+            autoComplete={'name'}
+            maxLength={100}
+            value={nome}
+            onChangeText={setNome}
+          />
 
-        <Text style={styles.mensagemNome}>{mensagemNome}</Text>
+          <Text style={styles.mensagemNome}>{mensagemNome}</Text>
 
-        <TextInput
-          placeholder="Email"
-          style={styleInputEmail}
-          autoCorrect={false}
-          autoComplete={'email'}
-          //autoFocus={true}
-          value={email}
-          onChangeText={setEmail}
-          maxLength={145}
-        />
+          <TextInput
+            placeholder="Email"
+            style={styleInputEmail}
+            autoCorrect={false}
+            autoComplete={'email'}
+            //autoFocus={true}
+            value={email}
+            onChangeText={setEmail}
+            maxLength={100}
+          />
 
-        <Text style={styles.mensagemEmail}>{mensagemEmail}</Text>
+          <Text style={styles.mensagemEmail}>{mensagemEmail}</Text>
 
-        <Icon name="user" style={styles.IconUser} size={25}></Icon>
-        <TextInput
-          placeholder="Senha"
-          style={styleInputSenha}
-          autoComplete={'password'}
-          secureTextEntry={true}
-          onChangeText={setSenha}
-          value={senha}
-          maxLength={32}
-        />
-        <Text style={styles.mensagemSenha}>{mensagemSenha}</Text>
+          <Icon name="user" style={styles.IconUser} size={25}></Icon>
+          <TextInput
+            placeholder="Senha"
+            style={styleInputSenha}
+            autoComplete={'password'}
+            secureTextEntry={true}
+            onChangeText={setSenha}
+            value={senha}
+            maxLength={32}
+          />
+          <Text style={styles.mensagemSenha}>{mensagemSenha}</Text>
 
-        <Icon name="mail" style={styles.IconEmail} size={25}></Icon>
-        <Icon name="lock" style={styles.IconSenha} size={29}></Icon>
+          <Icon name="mail" style={styles.IconEmail} size={25}></Icon>
+          <Icon name="lock" style={styles.IconSenha} size={29}></Icon>
 
-        <TextInput
-          placeholder="Confirmar Senha"
-          style={styleInputConfirmarSenha}
-          autoComplete={'password'}
-          value={confimarSenha}
-          onChangeText={setConfirmarSenha}
-          secureTextEntry={true}
-          // autoFocus={true}
-          maxLength={32}
-        />
+          <TextInput
+            placeholder="Confirmar Senha"
+            style={styleInputConfirmarSenha}
+            autoComplete={'password'}
+            value={confimarSenha}
+            onChangeText={setConfirmarSenha}
+            secureTextEntry={true}
+            // autoFocus={true}
+            maxLength={32}
+          />
 
-        <Text style={styles.mensagemConfirmarSenha}>
-          {mensagemConfirmarSenha}
-        </Text>
+          <Text style={styles.mensagemConfirmarSenha}>
+            {mensagemConfirmarSenha}
+          </Text>
 
-        <Icon name="lock" style={styles.IconConfirmarSenha} size={29}></Icon>
-        <Text></Text>
-        <TouchableOpacity style={styles.btnSubmit} onPress={handleSubmit}>
-          <Text style={styles.submitText}>Cadastrar-Se</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
-  );
-};
+          <Icon name="lock" style={styles.IconConfirmarSenha} size={29}></Icon>
+          <Text></Text>
+          <TouchableOpacity style={styles.btnSubmit} onPress={handleSubmit}>
+            <Text style={styles.submitText}>Cadastrar-Se</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    );
+  };
 
 const styles = StyleSheet.create({
   container: {
@@ -298,9 +322,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mensagemSenha: {
-   // right: 12,
-   //flex:1,
-   justifyContent: 'flex-start',
+    // right: 12,
+    //flex:1,
+    justifyContent: 'flex-start',
     color: '#ff0000',
   },
   mensagemConfirmarSenha: {
