@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+// refactor all the code using clean code
 
 const Cadastro = () => {
   const [nome, setNome] = useState('');
@@ -27,10 +28,18 @@ const Cadastro = () => {
     /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,'-]+$/u;
   const patternEmail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const patternNome2 = /^[^ ][\w\W ]*[^ ]/;
+
+  // when screen loads it will not run the useEffect
 
   useEffect(() => {
-    console.log(nome.length);
-    if (nome.length < 3 && !patternNome.test(nome)) {
+    //setNome(nome.replace(/\s+$/, ''));
+    // || !(nome.replace(/\s+/g, ' ').trim() == nome "USAR DEPOIS NO BACKEND"
+    //console.log(nome)
+    //console.log(patternNome2.test(nome))
+    if (nome === '') {
+      setMensagemNome('');
+    } else if (nome.length < 3 || !patternNome.test(nome)) {
       styles.inputNome = {
         backgroundColor: '#ffffff',
         width: '90%',
@@ -63,8 +72,11 @@ const Cadastro = () => {
   }, [nome]);
 
   useEffect(() => {
-    console.log('debugando o email');
-    if (!patternEmail.test(email)) {
+    //console.log('debugando o email');
+    setEmail(email.replace(/ /g, ''));
+    if (email === '') {
+      setMensagemEmail('');
+    } else if (!patternEmail.test(email)) {
       styles.inputEmail = {
         backgroundColor: '#ffffff',
         width: '90%',
@@ -96,7 +108,9 @@ const Cadastro = () => {
   }, [email]);
 
   useEffect(() => {
-    if (senha.length < 6) {
+    if (senha === '') {
+      setMensagemSenha('');
+    } else if (senha.length < 6) {
       styles.inputSenha = {
         backgroundColor: '#ffffff',
         width: '90%',
@@ -128,7 +142,9 @@ const Cadastro = () => {
   }, [senha]);
 
   useEffect(() => {
-    if (senha != confimarSenha) {
+    if (confimarSenha === '') {
+      setMensagemConfirmarSenha('');
+    } else if (senha != confimarSenha) {
       styles.inputConfirmarSenha = {
         backgroundColor: '#ffffff',
         width: '90%',
@@ -376,3 +392,18 @@ const styles = StyleSheet.create({
 });
 
 export default Cadastro;
+
+/*
+<TextInput
+          placeholder="Confirmar Senha"
+          style={styles.inputConfirmarSenha}
+          autoCorrect={false}
+          autoComplete={'password'}
+          value={confimarSenha}
+          onChangeText={setConfirmarSenha}
+          secureTextEntry={true}
+          autoFocus={true}
+          maxLength={32}
+        />
+
+*/
