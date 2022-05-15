@@ -1,4 +1,6 @@
+//import 'react-native-gesture-handler';
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   SafeAreaView,
   ScrollView,
@@ -12,123 +14,32 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
+import Login from './Login';
+import Cadastro from './Cadastro';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import Icon from 'react-native-vector-icons/AntDesign';
 const App = () => {
-  return (
-    <KeyboardAvoidingView style={styles.background}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('../images/logo.png')}
-          style={{
-            width: 260,
-            height: 110,
-          }}></Image>
-      </View>
 
-      <View style={styles.container}>
-        <TextInput 
-        placeholder="Email" 
-        style={styles.input}
-        autoCorrect={false} 
-        autoComplete={'email'}
-        maxLength={150}
-        />
-        <Icon name='mail' style={styles.IconEmail} size={25}></Icon>
-        <TextInput 
-        placeholder="Senha" 
-        style={styles.input} 
-        autoComplete={'password'}
-        secureTextEntry={true}
-        maxLength={32}
-        />
-        <Icon name='lock' style={styles.IconSenha} size={29}></Icon>
-        <Text></Text>
-        <TouchableOpacity style={styles.btnSubmit}>
-          <Text style={styles.submitText}>Acessar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnRegister}>
-          <Text style={styles.createAccountText}>
-            Criar conta gratuita
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
-  );
-};
+  const Stack = createNativeStackNavigator();
 
-const styles = StyleSheet.create({
-  btnRegister:{
-    marginTop: 10
-  },
-  createAccountText:{
-    color: '#000000'
-  },
-  IconEmail:{
-    position: 'absolute',
-    top: 13,
-    left: 25,
-  },
-  IconSenha:{
-    position: 'absolute',
-    top: 73,
-    left: 25,
-  },
-  background: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    // justifyContent: 'center',
-    width: '90%',
-    paddingBottom: 50,
-    backgroundColor: '#ffffff',
-  },
-  logoContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    backgroundColor: '#ffffff',
-    width: '90%',
-    marginBottom: 15,
-    color: '#000000',
-    fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-    borderColor: '#000000',
-    fontFamily: 'Outfit-Regular',
-    paddingLeft:40
-  },
-  btnSubmit: {
-    
-    backgroundColor: '#48BF84',
-    width: '90%',
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-   // paddingTop: 50,
-  },
-  submitText: {
-    color: '#ffffff',
-    fontSize: 18,
-    //fontWeight: 'bold',
-    fontFamily: 'Outfit-SemiBold'
-  },
-});
+  return(
+    <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false
+          }}
+      />
+      <Stack.Screen
+        name="Cadastro"
+        component={Cadastro}
+      />
+      </Stack.Navigator>
+      </NavigationContainer>
+  )
+
+}
 
 export default App;
