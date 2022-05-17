@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     },
     IconSenha:{
       position: 'absolute',
-      top: 73,
+      top: 90,
       left: 25,
     },
     background: {
@@ -31,12 +31,36 @@ export const styles = StyleSheet.create({
       paddingBottom: 50,
       backgroundColor: '#ffffff',
     },
+    mensagemSenha: {
+      // right: 12,
+      //flex:1,
+      justifyContent: 'flex-start',
+      color: '#ff0000',
+    },
+    mensagemEmail: {
+      // right: 12,
+      //flex:1,
+      justifyContent: 'flex-start',
+      color: '#ff0000',
+    },
     logoContainer: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    input: {
+    inputSenha: {
+      backgroundColor: '#ffffff',
+      width: '90%',
+      marginBottom: 15,
+      color: '#000000',
+      fontSize: 17,
+      padding: 10,
+      borderBottomWidth: 2,
+      borderColor: '#000000',
+      fontFamily: 'Outfit-Regular',
+      paddingLeft:40
+    },
+    inputEmail: {
       backgroundColor: '#ffffff',
       width: '90%',
       marginBottom: 15,

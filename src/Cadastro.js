@@ -152,7 +152,7 @@ const Cadastro = ({navigation}) => {
   const VerificarEmailJaCadastrado = async () => {
     let vel = true;
 
-    setResponse(await Api.post('/buscarEmail', {EMAIL: email}));
+    setResponse(await Api.post('/login', {EMAIL: email}));
 
     if (response.data != null) {
       setMensagemEmail('E-mail já cadastrado');
@@ -251,8 +251,9 @@ const Cadastro = ({navigation}) => {
         NOME: removerEspacos(nome),
         EMAIL: email,
         SENHA: senha,
-        TIPO: 'USUARIO',
+        TIPO: 'usuario',
       });
+
       data = {NOME: removerEspacos(nome), EMAIL: email, SENHA: senha};
       const RealizarCadastro = async () => {
         setResponse(await Api.post('/usuarios', data));
