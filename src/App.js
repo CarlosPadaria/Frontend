@@ -1,6 +1,6 @@
 //import 'react-native-gesture-handler';
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, {useContext, useState, useEffect, useCallback} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,41 +16,44 @@ import {
 } from 'react-native';
 import Login from './Login';
 import Cadastro from './Cadastro';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './Home';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import AuthProvider, {AuthContext} from './contexts/Auth';
+
 
 const App = () => {
-
   const Stack = createNativeStackNavigator();
-
-  return(
+  const {logged, setLogged, user, setUser} = useContext(AuthContext);
+ 
+  return (
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerShown: false,
-          }}
-      />
-      <Stack.Screen
-        name="Cadastro"
-        component={Cadastro}
-        options={{headerTransparent: true, headerShadowVisible: false, title: ''}}
-          /*title: "",
-          headerStyle:{
-            backgroundColor: 'translucent'
-          },
-        
-          headerTintColor: '#000',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}*/
-      />
-      </Stack.Navigator>
-      </NavigationContainer>
-  )
+      <AuthProvider>
+        <Stack.Navigator>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="Cadastro"
+                component={Cadastro}
+                options={{
+                  headerTransparent: true,
+                  headerShadowVisible: false,
+                  title: '',
+                }}
+              />
+            <Stack.Screen name="Home" component={Home}
 
-}
+            options={{headerShown: false}}
+            />
+        </Stack.Navigator>
+      </AuthProvider>
+    </NavigationContainer>
+  );
+};
 
 export default App;
