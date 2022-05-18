@@ -12,15 +12,15 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
-import Home  from './Home';
+import Home from './Home';
 import Api from './Api';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {AuthContext} from './contexts/Auth';
 import {styles} from './styles/styleCadastro';
-
 const Cadastro = ({navigation}) => {
   const {user, setUser, logged, setLogged} = useContext(AuthContext);
   const [response, setResponse] = useState({});
+  const [responseLogin, setResponseLogin] = useState({});
   const [carregando, setCarregando] = useState(false);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ const Cadastro = ({navigation}) => {
     /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,'-]+$/u;
   const patternEmail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const patternNome2 = /^[^ ][\w\W ]*[^ ]/;
+  //const patternNome2 = /^[^ ][\w\W ]*[^ ]/;
 
   const removerEspacos = str => {
     str = str.replace(/^\s+/g, '');
@@ -125,6 +125,26 @@ const Cadastro = ({navigation}) => {
     return Valido;
   };
 
+  const handleVerificarEmailJaCadastrado = () => {
+    const funcao = async () => {
+      setResponseLogin(await Api.post('/login', {EMAIL: email}));
+    };
+
+    funcao();
+
+    console.log(responseLogin.data)
+    if (responseLogin.data != null) {
+      setStyleInputEmail({
+        ...styleInputEmail,
+        borderColor: '#ff0000',
+      });
+      setMensagemEmail('Este e-mail já está cadastrado');
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const handleValidarConfirmarSenha = () => {
     let Valido = true;
     if (confimarSenha === '') {
@@ -149,35 +169,22 @@ const Cadastro = ({navigation}) => {
     }
     return Valido;
   };
-  const VerificarEmailJaCadastrado = async () => {
-    let vel = true;
 
-    setResponse(await Api.post('/login', {EMAIL: email}));
+  useEffect(() => {
+    console.log('useEffect');
+  }, [response]);
+  useEffect(() => {
+    console.log(responseLogin.data);
+  }, [responseLogin]);
 
-    if (response.data != null) {
-      setMensagemEmail('E-mail já cadastrado');
-      setStyleInputEmail({
-        ...styleInputEmail,
-        borderColor: '#ff0000',
-      });
-      vel = false;
+  useEffect(() => {
+    if (email != '') {
+      setLogged(true);
     }
-    return vel;
-  };
-
+  }, [response]);
   useEffect(() => {
     handleValidarNome();
   }, [nome]);
-
-  useEffect(() => {
-    if(carregando === `carregado`){
-      navigation.navigate('Home');
-    }
-  }, [
-    carregando
-  ]);
-
- 
 
   useEffect(() => {
     handleValidarEmail();
@@ -191,7 +198,7 @@ const Cadastro = ({navigation}) => {
     handleValidarConfirmarSenha();
   }, [confimarSenha]);
 
-  const handleSubmit = ({navigation}) => {
+  const handleSubmit = () => {
     let Valido = true;
 
     if (nome === '') {
@@ -230,13 +237,12 @@ const Cadastro = ({navigation}) => {
       setMensagemConfirmarSenha('Você precisa preencher este campo');
     }
 
-
     if (
       !handleValidarNome ||
       !handleValidarEmail ||
       !handleValidarSenha ||
       !handleValidarConfirmarSenha ||
-      !VerificarEmailJaCadastrado()
+      handleVerificarEmailJaCadastrado == false
     ) {
       Valido = false;
     }
@@ -245,25 +251,23 @@ const Cadastro = ({navigation}) => {
 
     //VerificarEmailJaCadastrado();
 
-    if (Valido === true) {
-      console.log('Valido');
-      setUser({
-        NOME: removerEspacos(nome),
-        EMAIL: email,
-        SENHA: senha,
-        TIPO: 'usuario',
-      });
-
-      data = {NOME: removerEspacos(nome), EMAIL: email, SENHA: senha};
-      const RealizarCadastro = async () => {
-        setResponse(await Api.post('/usuarios', data));
-      };
+    if (Valido) {
+      const Logar = async () => {
+        setResponse(
+          await Api.post('/usuarios', {
+            EMAIL: email,
+            NOME: nome,
+            SENHA: senha,
+            TIPO_USUARIO: 'USUARIO',
+          })
+        )
+      }
       setCarregando(true);
-      RealizarCadastro();
-      setCarregando(`carregado`);
-      setLogged(true);
+      Logar();
+      setCarregando('carregado');
     }
   };
+
   return (
     <KeyboardAvoidingView style={styles.background}>
       <View style={styles.logoContainer}>
@@ -281,7 +285,7 @@ const Cadastro = ({navigation}) => {
           style={styleInputNome}
           autoCorrect={false}
           autoComplete={'name'}
-          maxLength={100}
+          maxLength={50}
           value={nome}
           onChangeText={setNome}
         />

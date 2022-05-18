@@ -34,71 +34,61 @@ const Login = ({navigation}) => {
   const [carregando, setCarregando] = useState(false);
   const [mensagemEmail, setMensagemEmail] = useState('');
   const [mensagemSenha, setMensagemSenha] = useState('');
+  // ADICIONAR USE EFFECT PARA VERIFICAR SE OS CAMPOS ESTÃO VÁZIOS!
+  useEffect(() => {
+    setEmail(email.replace(/ /g, ''));
+    setInputEmail({...styles.inputEmail, borderColor: '#000000'});
+    setMensagemEmail('');
+  }, [email]);
 
   useEffect(() => {
-    setInputEmail(
-      {...styles.inputEmail
-      , borderColor: '#000000'
-      }
-      );
-      setMensagemEmail('');
-  }, [email])
-
+    setInputSenha({...styles.inputSenha, borderColor: '#000000'});
+    setMensagemSenha('');
+  }, [senha]);
   useEffect(() => {
-    setInputSenha(
-      {...styles.inputSenha
-      , borderColor: '#000000'
-      }
-      );
-      setMensagemSenha('');
-  }, [senha])
-  useEffect(() => {
-    console.log(carregando);
-    console.log(response);
+    //console.log(carregando);
+   // console.log(response);
     //remove unhandled promise rejection message
     // LogBox.ignoreAllLogs(disable);
-    console.log(response.status);
+   // console.log(response.status);
 
-    if (email == '') {
-    } 
-    else if (response.data == null) {
+    if (email === '') {
+    } else if (response.data == null) {
       setMensagemEmail('Email não encontrado');
-      setInputEmail(
-        {...styles.inputEmail
-        , borderColor: 'red'
-        }
-        );
-    }
-    else if(response.data.SENHA != senha){
+      setInputEmail({...styles.inputEmail, borderColor: 'red'});
+    } else if (response.data.SENHA != senha) {
       setMensagemSenha('Senha incorreta');
-      setInputSenha(
-        {...styles.inputSenha
-        , borderColor: 'red'
-        }
-        );
-      setInputEmail(
-        {...styles.inputEmail
-        , borderColor: 'green'}
-      )
-    }
-    else {
-      setUser({...response.data,
-        TIPO: `usuario`
-      
-      });
+      setInputSenha({...styles.inputSenha, borderColor: 'red'});
+      setInputEmail({...styles.inputEmail, borderColor: 'green'});
+    } else {
+      setUser(response.data);
       setLogged(true);
-      navigation.navigate('Home');
+      //navigation.navigate('Home');
     }
   }, [response]);
 
   const btnSubmit = () => {
-    const Logar = async () => {
-      setResponse(await Api.post('/login', {EMAIL: email}));
-    };
-    setCarregando(true);
-    Logar();
-    setCarregando('carregado');
-    //setLogged(true);
+    let deveCarregar = true;
+
+    if (email === '') {
+      setInputEmail({...styles.inputEmail, borderColor: 'red'});
+      setMensagemEmail('Email não pode ser vazio');
+      deveCarregar = false;
+    }
+    if (senha === '') {
+      setInputSenha({...styles.inputSenha, borderColor: 'red'});
+      setMensagemSenha('Senha não pode ser vazia');
+      deveCarregar = false;
+    }
+    if (deveCarregar === true) {
+      const Logar = async () => {
+        setResponse(await Api.post('/login', {EMAIL: email}));
+      };
+      setCarregando(true);
+      Logar();
+      setCarregando('carregado');
+      //setLogged(true);
+    }
   };
   return (
     <KeyboardAvoidingView style={styles.background}>

@@ -20,7 +20,7 @@ import Home from './Home';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import AuthProvider, {AuthContext} from './contexts/Auth';
-
+import Route from './Route';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -29,28 +29,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <Stack.Navigator>
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="Cadastro"
-                component={Cadastro}
-                options={{
-                  headerTransparent: true,
-                  headerShadowVisible: false,
-                  title: '',
-                }}
-              />
-            <Stack.Screen name="Home" component={Home}
-
-            options={{headerShown: false}}
-            />
-        </Stack.Navigator>
+        <Route></Route>
       </AuthProvider>
     </NavigationContainer>
   );
