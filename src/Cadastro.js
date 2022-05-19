@@ -130,7 +130,7 @@ const Cadastro = ({navigation}) => {
 
   const handleValidarConfirmarSenha = () => {
     let Valido = true;
-    if (confimarSenha === '') {
+     if (confimarSenha === '') {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
         borderColor: '#000000',
@@ -175,11 +175,11 @@ const Cadastro = ({navigation}) => {
 
   useEffect(() => {
     handleValidarSenha();
-  }, [senha]);
+  }, [senha, confimarSenha]);
 
   useEffect(() => {
     handleValidarConfirmarSenha();
-  }, [confimarSenha]);
+  }, [confimarSenha,senha]);
 
   const handleSubmit = () => {
     let Valido = true;
@@ -249,11 +249,16 @@ const Cadastro = ({navigation}) => {
               SENHA: senha,
               TIPO_USUARIO: 'USUARIO',
             })
-            console.log("Usuário cadastrado com sucesso");
+           // console.log("Usuário cadastrado com sucesso");
             setVerificar(true);
           }).catch(() => {
-            console.log("Erro ao cadastrar usuário");
-            console.log(response)
+           // console.log("Erro ao cadastrar usuário");
+            setStyleInputEmail({
+              ...styleInputEmail,
+              borderColor: '#ff0000',
+            });
+            setMensagemEmail('Email já cadastrado!');
+            //console.log(response)
           })
         );
       }

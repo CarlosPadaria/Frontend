@@ -34,6 +34,7 @@ const Login = ({navigation}) => {
   const [carregando, setCarregando] = useState(false);
   const [mensagemEmail, setMensagemEmail] = useState('');
   const [mensagemSenha, setMensagemSenha] = useState('');
+  const [loginAceito, setLoginAceito] = useState(false);
   // ADICIONAR USE EFFECT PARA VERIFICAR SE OS CAMPOS ESTÃO VÁZIOS!
   useEffect(() => {
     setEmail(email.replace(/ /g, ''));
@@ -45,27 +46,12 @@ const Login = ({navigation}) => {
     setInputSenha({...styles.inputSenha, borderColor: '#000000'});
     setMensagemSenha('');
   }, [senha]);
-  useEffect(() => {
-    //console.log(carregando);
-   // console.log(response);
-    //remove unhandled promise rejection message
-    // LogBox.ignoreAllLogs(disable);
-   // console.log(response.status);
+  //console.log(carregando);
+  // console.log(response);
+  //remove unhandled promise rejection message
+  // LogBox.ignoreAllLogs(disable);
+  // console.log(response.status);
 
-    if (email === '') {
-    } else if (response.data == null) {
-      setMensagemEmail('Email não encontrado');
-      setInputEmail({...styles.inputEmail, borderColor: 'red'});
-    } else if (response.data.SENHA != senha) {
-      setMensagemSenha('Senha incorreta');
-      setInputSenha({...styles.inputSenha, borderColor: 'red'});
-      setInputEmail({...styles.inputEmail, borderColor: 'green'});
-    } else {
-      setUser(response.data);
-      setLogged(true);
-      //navigation.navigate('Home');
-    }
-  }, [response]);
 
   const btnSubmit = () => {
     let deveCarregar = true;
@@ -82,8 +68,19 @@ const Login = ({navigation}) => {
     }
     if (deveCarregar === true) {
       const Logar = async () => {
-        setResponse(await Api.post('/login', {EMAIL: email}));
+        setResponse(
+          await Api.post('/login', {EMAIL: email, SENHA: senha})
+            .then(() => {
+              console.log('Login realizado com sucesso!');
+              setUser(response.data);
+              setLogged(true);
+            })
+            .catch(() => {
+              console.log('Dados incompatíveis');
+            }),
+        );
       };
+
       setCarregando(true);
       Logar();
       setCarregando('carregado');

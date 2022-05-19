@@ -86,7 +86,7 @@ const Home = () => {
           <Icon name="setting" size={size} color={color}></Icon>
         ),
       }} />
-      {user.TIPO_USUARIO == 'ADMIN' ? (
+      {user.TIPO_USUARIO === 'ADMIN' ? (
         <>
           <Tab.Screen name="GerenciarUsuario" component={GerenciarUsuario} />
           <Tab.Screen name="CadastrarReceitas" component={CadastrarReceitas} />
