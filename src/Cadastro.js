@@ -33,6 +33,7 @@ const Cadastro = ({navigation}) => {
   const [styleInputNome, setStyleInputNome] = useState(styles.inputNome);
   const [styleInputEmail, setStyleInputEmail] = useState(styles.inputEmail);
   const [styleInputSenha, setStyleInputSenha] = useState(styles.inputSenha);
+  const [verificar, setVerificar] = useState(false);
   const [styleInputConfirmarSenha, setStyleInputConfirmarSenha] = useState(
     styles.inputConfirmarSenha,
   );
@@ -125,25 +126,7 @@ const Cadastro = ({navigation}) => {
     return Valido;
   };
 
-  const handleVerificarEmailJaCadastrado = () => {
-    const funcao = async () => {
-      setResponseLogin(await Api.post('/login', {EMAIL: email}));
-    };
 
-    funcao();
-
-    console.log(responseLogin.data)
-    if (responseLogin.data != null) {
-      setStyleInputEmail({
-        ...styleInputEmail,
-        borderColor: '#ff0000',
-      });
-      setMensagemEmail('Este e-mail já está cadastrado');
-      return false;
-    } else {
-      return true;
-    }
-  };
 
   const handleValidarConfirmarSenha = () => {
     let Valido = true;
@@ -171,17 +154,17 @@ const Cadastro = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log('useEffect');
-  }, [response]);
-  useEffect(() => {
-    console.log(responseLogin.data);
-  }, [responseLogin]);
+    if(email == ''){
 
-  useEffect(() => {
-    if (email != '') {
+    }
+    else if(verificar == true)
+    {
       setLogged(true);
     }
-  }, [response]);
+  }, [verificar]);
+
+
+ 
   useEffect(() => {
     handleValidarNome();
   }, [nome]);
@@ -241,8 +224,8 @@ const Cadastro = ({navigation}) => {
       !handleValidarNome ||
       !handleValidarEmail ||
       !handleValidarSenha ||
-      !handleValidarConfirmarSenha ||
-      handleVerificarEmailJaCadastrado == false
+      !handleValidarConfirmarSenha 
+     
     ) {
       Valido = false;
     }
@@ -250,7 +233,7 @@ const Cadastro = ({navigation}) => {
     //setResponse(await Api.get('/usuarios', EMAIL));
 
     //VerificarEmailJaCadastrado();
-
+    // add a then and catch to post methods
     if (Valido) {
       const Logar = async () => {
         setResponse(
@@ -259,8 +242,20 @@ const Cadastro = ({navigation}) => {
             NOME: nome,
             SENHA: senha,
             TIPO_USUARIO: 'USUARIO',
+          }).then(() => {
+            setUser({
+              EMAIL: email,
+              NOME: nome,
+              SENHA: senha,
+              TIPO_USUARIO: 'USUARIO',
+            })
+            console.log("Usuário cadastrado com sucesso");
+            setVerificar(true);
+          }).catch(() => {
+            console.log("Erro ao cadastrar usuário");
+            console.log(response)
           })
-        )
+        );
       }
       setCarregando(true);
       Logar();
