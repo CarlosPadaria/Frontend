@@ -159,6 +159,7 @@ const Cadastro = ({navigation}) => {
     }
     else if(verificar == true)
     {
+      setUser(response.data);
       setLogged(true);
     }
   }, [verificar]);
@@ -236,37 +237,31 @@ const Cadastro = ({navigation}) => {
     // add a then and catch to post methods
     if (Valido) {
       const Logar = async () => {
-        setResponse(
-          await Api.post('/usuarios', {
+        try{
+          const realizarCadastro = await Api.post('/usuarios', {
             EMAIL: email,
-            NOME: nome,
+            NOME: removerEspacos(nome),
             SENHA: senha,
             TIPO_USUARIO: 'USUARIO',
-          }).then(() => {
-            setUser({
-              EMAIL: email,
-              NOME: nome,
-              SENHA: senha,
-              TIPO_USUARIO: 'USUARIO',
-            })
-           // console.log("Usuário cadastrado com sucesso");
-            setVerificar(true);
-          }).catch(() => {
-           // console.log("Erro ao cadastrar usuário");
-            setStyleInputEmail({
+          });
+          setResponse(realizarCadastro)
+          setVerificar(true);
+        }
+        catch{
+          setStyleInputEmail({
               ...styleInputEmail,
               borderColor: '#ff0000',
-            });
+            })
             setMensagemEmail('Email já cadastrado!');
-            //console.log(response)
-          })
-        );
+        }
       }
       setCarregando(true);
       Logar();
       setCarregando('carregado');
-    }
-  };
+    
+  }
+}
+
 
   return (
     <KeyboardAvoidingView style={styles.background}>
@@ -281,7 +276,7 @@ const Cadastro = ({navigation}) => {
 
       <View style={styles.container}>
         <TextInput
-          placeholder="Nome"
+          placeholder="Nome de Usuário"
           style={styleInputNome}
           autoCorrect={false}
           autoComplete={'name'}

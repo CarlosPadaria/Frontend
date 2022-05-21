@@ -35,56 +35,80 @@ const Login = ({navigation}) => {
   const [mensagemEmail, setMensagemEmail] = useState('');
   const [mensagemSenha, setMensagemSenha] = useState('');
   const [loginAceito, setLoginAceito] = useState(false);
+  const [verificar, setVerificar] = useState(false);
   // ADICIONAR USE EFFECT PARA VERIFICAR SE OS CAMPOS ESTÃO VÁZIOS!
+
+  useEffect(() => {
+    if (verificar == true) {
+      setUser(response.data);
+      setLogged(true);
+    }
+  }, [verificar]);
+
   useEffect(() => {
     setEmail(email.replace(/ /g, ''));
-    setInputEmail({...styles.inputEmail, borderColor: '#000000'});
+    setInputEmail({
+      ...styles.inputEmail,
+      borderColor: '#000000',
+    });
     setMensagemEmail('');
+    // console.log(email)
   }, [email]);
 
   useEffect(() => {
-    setInputSenha({...styles.inputSenha, borderColor: '#000000'});
+    setInputSenha({
+      ...styles.inputSenha,
+      borderColor: '#000000',
+    });
     setMensagemSenha('');
   }, [senha]);
-  //console.log(carregando);
+  // console.log(carregando);
   // console.log(response);
-  //remove unhandled promise rejection message
+  // remove unhandled promise rejection message
   // LogBox.ignoreAllLogs(disable);
   // console.log(response.status);
-
 
   const btnSubmit = () => {
     let deveCarregar = true;
 
     if (email === '') {
-      setInputEmail({...styles.inputEmail, borderColor: 'red'});
+      setInputEmail({
+        ...styles.inputEmail,
+        borderColor: 'red',
+      });
       setMensagemEmail('Email não pode ser vazio');
       deveCarregar = false;
     }
     if (senha === '') {
-      setInputSenha({...styles.inputSenha, borderColor: 'red'});
+      setInputSenha({
+        ...styles.inputSenha,
+        borderColor: 'red',
+      });
       setMensagemSenha('Senha não pode ser vazia');
       deveCarregar = false;
     }
     if (deveCarregar === true) {
       const Logar = async () => {
-        setResponse(
-          await Api.post('/login', {EMAIL: email, SENHA: senha})
-            .then(() => {
-              console.log('Login realizado com sucesso!');
-              setUser(response.data);
-              setLogged(true);
-            })
-            .catch(() => {
-              console.log('Dados incompatíveis');
-            }),
-        );
+        try {
+          const realizarLogin = await Api.post('/login', {
+            EMAIL: email,
+            SENHA: senha,
+          });
+          console.log('vindo diretamente do try');
+          setResponse(realizarLogin);
+          setVerificar(true);
+        } catch {
+          setInputEmail({
+            ...styles.inputEmail,
+            borderColor: '#ff0000',
+          });
+          setMensagemEmail('Email ou Senha incorretos');
+          console.log('faiou');
+        }
       };
-
       setCarregando(true);
       Logar();
       setCarregando('carregado');
-      //setLogged(true);
     }
   };
   return (
@@ -136,5 +160,4 @@ const Login = ({navigation}) => {
     </KeyboardAvoidingView>
   );
 };
-
 export default Login;

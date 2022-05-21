@@ -20,7 +20,9 @@ import ListaReceitas from './ListaReceitas';
 import GerenciarUsuario from './GerenciarUsuario';
 import CadastrarReceitas from './CadastrarReceitas';
 import Options from './Options';
-
+import AlterarNome from './AlterarNome';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import OptionsScreen from './OptionsScreens';
 const Home = () => {
   const Tab = createBottomTabNavigator();
   const {user, setUser, logged, setLogged} = useContext(AuthContext);
@@ -34,7 +36,7 @@ const Home = () => {
   // when back button is pressed don't back to cadastro screen
 
   // if user.TIPO_USUARIO == 'ADMIN' then show options screen
-
+  
   return (
     <Tab.Navigator
       screenOptions={{
@@ -68,8 +70,9 @@ const Home = () => {
           headerShadowVisible: false,
           title: '',
         }}></Tab.Screen>
-      <Tab.Screen name="Opções" component={Options}
+      <Tab.Screen name="Opções" component={OptionsScreen}
       options={{
+        headerShown: false,
         headerStyle:{
           backgroundColor: '#ffffff',
           
@@ -86,6 +89,7 @@ const Home = () => {
           <Icon name="setting" size={size} color={color}></Icon>
         ),
       }} />
+      
       {user.TIPO_USUARIO === 'ADMIN' ? (
         <>
           <Tab.Screen name="GerenciarUsuario" component={GerenciarUsuario} />
