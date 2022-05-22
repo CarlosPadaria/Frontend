@@ -15,7 +15,9 @@ import {
   } from 'react-native';
 import Options from "./Options";
 import AlterarNome from "./AlterarNome";
+import AlterarSenha from "./AlterarSenha";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import DesativarConta from "./DesativarConta";
 
 
 const OptionsScreen = () => {
@@ -35,7 +37,31 @@ const OptionsScreen = () => {
         component={AlterarNome}
         options={{
           headerShown: true,
+         // headerTransparent: true,
+          headerShadowVisible: false,
           title: 'Atualizar Nome',
+        }}
+      />
+      <Stack.Screen
+        name="AlterarSenha"
+    
+        component={AlterarSenha}
+        options={{
+          headerShown: true,
+         // headerTransparent: true,
+          headerShadowVisible: false,
+          title: 'Atualizar Senha',
+        }}
+      />
+      <Stack.Screen
+        name="DesativarConta"
+    
+        component={DesativarConta}
+        options={{
+          headerShown: true,
+         // headerTransparent: true,
+          headerShadowVisible: false,
+          title: 'Desativar Conta',
         }}
       />
       </Stack.Navigator>

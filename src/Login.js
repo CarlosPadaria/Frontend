@@ -154,7 +154,7 @@ const Login = ({navigation}) => {
           onPress={() => {
             navigation.navigate('Cadastro');
           }}>
-          <Text style={styles.createAccountText}>Criar conta gratuita</Text>
+          <Text style={styles.createAccountText}>Criar conta</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

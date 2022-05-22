@@ -18,7 +18,7 @@ import Api from './Api';
 
 import {AuthContext} from './contexts/Auth';
 
-const AlterarNome = () => {
+const AlterarNome = ({navigation}) => {
   const {user, setUser, logged, setLogged} = useContext(AuthContext);
   const patternNome =
     /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,'-]+$/u;
@@ -28,7 +28,7 @@ const AlterarNome = () => {
   const [mensagemNome, setMensagemNome] = useState('');
   const [styleInput, setStyleInput] = useState(styles.input);
   const [response, setResponse] = useState({});
-  const [verificar,setVerificar] = useState(false);
+  const [verificar, setVerificar] = useState(false);
   const btnCancel = () => {
     setNome(user.NOME);
   };
@@ -39,60 +39,56 @@ const AlterarNome = () => {
     return str;
   };
   const handleSubmit = () => {
-    if(handleValidarNome() === true)
-    {
-        const AtualizarNome = async () =>{
-            try{
-                const realizarAlteracao = await Api.patch('/nome/'+user.ID_USUARIO, {
-                    NOME: removerEspacos(nome),
-                });
-                
-                setResponse(realizarAlteracao)
-                setVerificar(true);
-            }
-            catch{
-                console.log('Erro ao atualizar nome');
-            }
+    if (handleValidarNome() === true) {
+      const AtualizarNome = async () => {
+        try {
+          const realizarAlteracao = await Api.patch(
+            '/nome/' + user.ID_USUARIO,
+            {
+              NOME: removerEspacos(nome),
+            },
+          );
+
+          setResponse(realizarAlteracao);
+          setVerificar(true);
+        } catch {
+          console.log('Erro ao atualizar nome');
         }
-        AtualizarNome();
-        
-
+      };
+      AtualizarNome();
+      
     }
-  }
+  };
 
-  const handleValidarNome = () =>{
+  const handleValidarNome = () => {
     if (nome.length < 3 || !patternNome.test(nome)) {
-        setStyleInput({
-          ...styleInput,
-          borderColor: '#ff0000',
-        });
-        setMensagemNome('Precisa ter no mínimo 3 caractéres e só pode conter letras');
-        return false;
-      }
-      else{
-          setStyleInput({
-              ...styleInput,
-              borderColor: '#000000',
-            });
-            setMensagemNome('');
-            return true;
-      }
-  }
+      setStyleInput({
+        ...styleInput,
+        borderColor: '#ff0000',
+      });
+      setMensagemNome(
+        'Precisa ter no mínimo 3 caractéres e só pode conter letras',
+      );
+      return false;
+    } else {
+      setStyleInput({
+        ...styleInput,
+        borderColor: '#000000',
+      });
+      setMensagemNome('');
+      return true;
+    }
+  };
   useEffect(() => {
     handleValidarNome();
   }, [nome]);
 
-  useEffect(() =>{
-    if(verificar === true)
-    {
-        
-        setUser({...user,
-            NOME: removerEspacos(nome),}
-            );
+  useEffect(() => {
+    if (verificar === true) {
+      setUser({...user, NOME: removerEspacos(nome)});
+      navigation.navigate('Options');
     }
-  }
-  ,[verificar]);
-
+  }, [verificar]);
   return (
     <KeyboardAvoidingView style={styles.background}>
       <TextInput
@@ -101,8 +97,7 @@ const AlterarNome = () => {
         onChangeText={setNome}
         autoCorrect={false}
         autoComplete={'name'}
-        maxLength={50}
-        ></TextInput>
+        maxLength={50}></TextInput>
       <Text style={styles.mensagemNome}>{mensagemNome}</Text>
       <View style={styles.containerFatherInput}>
         <View style={styles.inputContainer}>
@@ -119,7 +114,7 @@ const AlterarNome = () => {
 };
 
 const styles = StyleSheet.create({
-  mensagemNome:{
+  mensagemNome: {
     color: '#ff0000',
     marginBottom: 10,
   },

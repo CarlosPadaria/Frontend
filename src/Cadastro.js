@@ -25,7 +25,7 @@ const Cadastro = ({navigation}) => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [confimarSenha, setConfirmarSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
   const [mensagemNome, setMensagemNome] = useState('');
   const [mensagemEmail, setMensagemEmail] = useState('');
   const [mensagemSenha, setMensagemSenha] = useState('');
@@ -130,13 +130,13 @@ const Cadastro = ({navigation}) => {
 
   const handleValidarConfirmarSenha = () => {
     let Valido = true;
-     if (confimarSenha === '') {
+     if (confirmarSenha === '') {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
         borderColor: '#000000',
       });
       setMensagemConfirmarSenha('');
-    } else if (senha != confimarSenha) {
+    } else if (senha != confirmarSenha) {
       setStyleInputConfirmarSenha({
         ...styleInputSenha,
         borderColor: '#ff0000',
@@ -176,11 +176,11 @@ const Cadastro = ({navigation}) => {
 
   useEffect(() => {
     handleValidarSenha();
-  }, [senha, confimarSenha]);
+  }, [senha, confirmarSenha]);
 
   useEffect(() => {
     handleValidarConfirmarSenha();
-  }, [confimarSenha,senha]);
+  }, [confirmarSenha,senha]);
 
   const handleSubmit = () => {
     let Valido = true;
@@ -212,7 +212,7 @@ const Cadastro = ({navigation}) => {
       Valido = false;
     }
 
-    if (confimarSenha === '') {
+    if (confirmarSenha === '') {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
         borderColor: '#ff0000',
@@ -319,7 +319,7 @@ const Cadastro = ({navigation}) => {
           placeholder="Confirmar Senha"
           style={styleInputConfirmarSenha}
           autoComplete={'password'}
-          value={confimarSenha}
+          value={confirmarSenha}
           onChangeText={setConfirmarSenha}
           secureTextEntry={true}
           // autoFocus={true}

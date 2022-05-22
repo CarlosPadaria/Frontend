@@ -17,6 +17,10 @@ import {
   const ListaReceitas = () => {
       return (
           <View>
+              <Image 
+                style={{width: '100%', height: '50%'}}
+                source={{uri:'https://pbs.twimg.com/media/EalBoKOWoAUqOQ8.jpg'}}
+              ></Image>
               <Text>
                   Nada por enquanto
               </Text>

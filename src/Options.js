@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -15,12 +15,13 @@ import {
   Alert,
 } from 'react-native';
 import {AuthContext} from './contexts/Auth';
-import AlterarNome from './AlterarNome';
+import Icon from 'react-native-vector-icons/AntDesign';
+//import AlterarNome from './AlterarNome';
 //import Dialog from 'react-native-dialog'
 const Options = ({navigation}) => {
   const {user, setUser, logged, setLogged} = useContext(AuthContext);
+  const [show, setShow] = useState(false);
 
-  
   return (
     <KeyboardAvoidingView style={styles.background}>
       <View style={styles.container}>
@@ -28,34 +29,46 @@ const Options = ({navigation}) => {
       </View>
       <View style={styles.containerFatherInput}>
         <Text style={styles.textoDoInput}>Nome de Usuário</Text>
-        <View style={styles.inputContainer}>
         
+        <View style={styles.inputContainer}>
+          
           <TextInput
             placeholder="Nome"
             editable={false}
             selectTextOnFocus={false}
             value={user.NOME}
             style={styles.Input}></TextInput>
-          <TouchableOpacity style={styles.btnSubmit} onPress={() => {
-      navigation.navigate('AlterarNome')}}>
-            <Text style={styles.submitText} >Alterar</Text>
+          <TouchableOpacity
+            style={styles.btnSubmit}
+            onPress={() => {
+              navigation.navigate('AlterarNome');
+            }}>
+            <Text style={styles.submitText}>Alterar</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.textoDoInput}>Senha</Text>
+        
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Senha"
             editable={false}
             selectTextOnFocus={false}
             value={user.SENHA}
-            secureTextEntry={true}
+            secureTextEntry={!show}
             style={styles.Input}></TextInput>
-          <TouchableOpacity style={styles.btnSubmit}>
+          <TouchableOpacity
+            style={styles.btnSubmit}
+            onPress={() => {
+              navigation.navigate('AlterarSenha');
+            }}>
             <Text style={styles.submitText}>Alterar</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.textoDoInput}>Email</Text>
-       <View style={styles.inputContainer}>
+        <Icon name={show === false ? 'eye' : 'eyeo'} style={styles.IconOlhoSenha} onPress={() => {
+          setShow(!show);
+        }} size={25}></Icon>
+        <View style={styles.inputContainer}>
           <TextInput
             placeholder="Email"
             editable={false}
@@ -63,15 +76,24 @@ const Options = ({navigation}) => {
             value={user.EMAIL}
             style={styles.Input}></TextInput>
         </View>
-        <TouchableOpacity onPress={
-          () => {
+        <TouchableOpacity
+          onPress={() => {
             setUser({});
             setLogged(false);
-          }
-        } style={styles.btnSair}>
+          }}
+          style={styles.btnSair}>
           <Text style={styles.sairText}>Sair</Text>
+        
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.btnSair} onPress={() =>{
+            navigation.navigate('DesativarConta');
+          }}>
+          <Text style={styles.sairText}>Desativar Conta</Text>
+        
         </TouchableOpacity>
       </View>
+      
     </KeyboardAvoidingView>
   );
 };
@@ -79,12 +101,18 @@ const Options = ({navigation}) => {
 export default Options;
 
 const styles = StyleSheet.create({
-  btnSair:{
+  IconOlhoSenha:{
+    left: 200,
+    top: 210,
+    position: 'absolute'
+  },
+  btnSair: {
+    marginTop: 80,
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  sairText:{
+  sairText: {
     color: 'red',
   },
   submitText: {
@@ -94,8 +122,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-SemiBold',
   },
   nameStyle: {
-    paddingTop:40,
-    paddingBottom:30,
+    paddingTop: 40,
+    paddingBottom: 30,
     fontSize: 20,
     fontFamily: 'Outfit-Bold',
     color: '#48BF84',
@@ -117,23 +145,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   inputContainer: {
-   // flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     width: '90%',
-   // paddingBottom: 50,
+    // paddingBottom: 50,
   },
   Input: {
     //marginTop: 25,
     backgroundColor: '#ffffff',
     width: '70%',
     height: 40,
-   // marginBottom: 15,
+    // marginBottom: 15,
     color: '#000000',
     fontSize: 18,
     fontFamily: 'Outfit-Regular',
     paddingLeft: 40,
   },
- /* Input: {
+  /* Input: {
     marginTop: 25,
     backgroundColor: '#ffffff',
     width: '70%',
@@ -149,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     width: '70%',
     height: 45,
-   // marginBottom: 15,
+    // marginBottom: 15,
     color: '#525252',
     fontSize: 20,
     fontFamily: 'Outfit-Regular',
@@ -157,7 +185,7 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     padding: 10,
-  //  marginTop: 25,
+    //  marginTop: 25,
     marginBottom: 15,
     backgroundColor: '#48BF84',
     width: '30%',
