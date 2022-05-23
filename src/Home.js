@@ -17,7 +17,7 @@ import {
 import {AuthContext} from './contexts/Auth';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ListaReceitas from './ListaReceitas';
-import GerenciarUsuario from './GerenciarUsuario';
+//import GerenciarUsuario from './GerenciarUsuario';
 import CadastrarReceitas from './CadastrarReceitas';
 import Options from './Options';
 import AlterarNome from './AlterarNome';
@@ -36,7 +36,7 @@ const Home = () => {
   // when back button is pressed don't back to cadastro screen
 
   // if user.TIPO_USUARIO == 'ADMIN' then show options screen
-  
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -56,9 +56,8 @@ const Home = () => {
       <Tab.Screen
         name="Receitas"
         component={ListaReceitas}
-        
         options={{
-          tabBarLabelStyle:{
+          tabBarLabelStyle: {
             fontFamily: 'Outfit-Bold',
             fontSize: 12,
           },
@@ -70,34 +69,52 @@ const Home = () => {
           headerShadowVisible: false,
           title: '',
         }}></Tab.Screen>
-      <Tab.Screen name="Opções" component={OptionsScreen}
-      options={{
-        headerShown: false,
-        headerStyle:{
-          backgroundColor: '#ffffff',
-          
-        },
-        headerTintColor: '#000000',
-        headerTitleAlign: 'center',
-        title: 'Opções',
-        tabBarLabelStyle:{
-          fontFamily: 'Outfit-Bold',
-          fontSize: 12,
-        },
-        tabBarLabel: 'Opções',
-        tabBarIcon: ({size, color}) => (
-          <Icon name="setting" size={size} color={color}></Icon>
-        ),
-      }} />
-      
       {user.TIPO_USUARIO === 'ADMIN' ? (
         <>
-          <Tab.Screen name="GerenciarUsuario" component={GerenciarUsuario} />
-          <Tab.Screen name="CadastrarReceitas" component={CadastrarReceitas} />
+          <Tab.Screen
+            name="CadastrarReceitas"
+            options={{
+              headerStyle: {
+                backgroundColor: '#ffffff',
+              },
+              headerTintColor: '#000000',
+              headerTitleAlign: 'center',
+              title: 'Cadastrar Receita',
+              tabBarLabelStyle: {
+                fontFamily: 'Outfit-Bold',
+                fontSize: 12,
+              },
+              tabBarIcon: ({size, color}) => (
+                <Icon name="plussquareo" size={size} color={color}></Icon>
+              ),
+            }}
+            component={CadastrarReceitas}
+          />
         </>
       ) : (
         <></>
       )}
+      <Tab.Screen
+        name="Opções"
+        component={OptionsScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#ffffff',
+          },
+          headerTintColor: '#000000',
+          headerTitleAlign: 'center',
+          title: 'Opções',
+          tabBarLabelStyle: {
+            fontFamily: 'Outfit-Bold',
+            fontSize: 12,
+          },
+          tabBarLabel: 'Opções',
+          tabBarIcon: ({size, color}) => (
+            <Icon name="setting" size={size} color={color}></Icon>
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };

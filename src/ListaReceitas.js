@@ -19,7 +19,7 @@ import {
           <View>
               <Image 
                 style={{width: '100%', height: '50%'}}
-                source={{uri:'https://pbs.twimg.com/media/EalBoKOWoAUqOQ8.jpg'}}
+                source={{uri:'https://hilahcooking.com/wp-content/uploads/2016/03/pao-de-queijo-recipe-2-225x225.jpg'}}
               ></Image>
               <Text>
                   Nada por enquanto
