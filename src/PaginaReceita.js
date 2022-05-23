@@ -14,14 +14,13 @@ import {
     BackHandler
   } from 'react-native';
 
-  const GerenciarUsuario = () => {
-      return (
-          <View>
-              <Text>
-                  Nada por enquanto
-              </Text>
-          </View>
-      )
-  }
+const PaginaReceita = () =>{
 
-  export default GerenciarUsuario;
+    return (
+        <View>
+            <Text>Nada por enquanto</Text>
+        </View>
+    )
+}
+
+export default PaginaReceita;

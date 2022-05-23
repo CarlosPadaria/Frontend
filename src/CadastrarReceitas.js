@@ -15,12 +15,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Api from './Api';
-import Clipboard from '@react-native-community/clipboard';
+//import Clipboard from '@react-native-community/clipboard';
 //import { useEffect } from 'react/cjs/react.production.min';
 import {AuthContext} from './contexts/Auth';
-const CadastrarReceitas = () => {
+const CadastrarReceitas = ({navigation}) => {
   // do a dynamic input for names
-  const {logged, setLogged, user, setUser} = useContext(AuthContext);
+  const {logged, setLogged, user, setUser, loading, setLoading} = useContext(AuthContext);
   const [ingredientes, setIngredientes] = useState([]);
   const [passos, setPassos] = useState([]);
   const [imagem, setImagem] = useState('');
@@ -32,7 +32,7 @@ const CadastrarReceitas = () => {
   let realizarCadastro = {};
   let realizarCadastroIngrediente = {};
   let realizarCadastroPasso = {};
-
+  let i = 0;
 
 
 
@@ -63,7 +63,7 @@ const CadastrarReceitas = () => {
       CadastrarIngredientes();
 
       const CadastrarPassos = async () => {
-        for (let i = 0; i < passos.length; i++) {
+        for (i = 0; i < passos.length; i++) {
           realizarCadastroPasso = await Api.post('/passos', {
             ID_RECEITA: response.data.ID_RECEITA,
             DESCRICAO: passos[i].passo,
@@ -73,7 +73,9 @@ const CadastrarReceitas = () => {
       };
 
       CadastrarPassos();
+      navigation.navigate('ListarReceitas');
   }
+
 
   const handleAddIngrediente = () => {
     setIngredientes([...ingredientes, {ingrediente: ''}]);
@@ -146,7 +148,7 @@ const CadastrarReceitas = () => {
         }
       };
       CadastrarReceita();
-     
+      setLoading(!loading);
     } else {
       setMensagem('Algum campo não foi preenchido corretamente');
     }

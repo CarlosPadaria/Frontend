@@ -23,16 +23,17 @@ import Options from './Options';
 import AlterarNome from './AlterarNome';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import OptionsScreen from './OptionsScreens';
+import Receita from './Receita';
 const Home = () => {
   const Tab = createBottomTabNavigator();
   const {user, setUser, logged, setLogged} = useContext(AuthContext);
 
-  useEffect(() => {
+  /*useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => true);
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', () => true);
     };
-  });
+  });*/
   // when back button is pressed don't back to cadastro screen
 
   // if user.TIPO_USUARIO == 'ADMIN' then show options screen
@@ -54,8 +55,8 @@ const Home = () => {
         },
       }}>
       <Tab.Screen
-        name="Receitas"
-        component={ListaReceitas}
+        name="Receita"
+        component={Receita}
         options={{
           tabBarLabelStyle: {
             fontFamily: 'Outfit-Bold',
@@ -65,7 +66,8 @@ const Home = () => {
           tabBarIcon: ({size, color}) => (
             <Icon name="home" size={size} color={color}></Icon>
           ),
-          headerTransparent: true,
+          headerTransparent: false,
+          headerShown: false,
           headerShadowVisible: false,
           title: '',
         }}></Tab.Screen>
