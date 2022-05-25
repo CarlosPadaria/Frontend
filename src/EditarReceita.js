@@ -42,7 +42,7 @@ const EditarReceita = ({navigation}) => {
   }, []);
 
   const handleAddIngrediente = () => {
-    setIngredientes([...ingredientes, {ingrediente: ''}]);
+    setIngredientes([...ingredientes, {NOME: ''}]);
   };
 
   const handleRemoveIngrediente = index => {
@@ -51,18 +51,18 @@ const EditarReceita = ({navigation}) => {
 
   const handleChangeIngrediente = (index, value) => {
     const newIngredientes = [...ingredientes];
-    newIngredientes[index] = {...newIngredientes[index], ingrediente: value};
+    newIngredientes[index] = {...newIngredientes[index], NOME: value};
     setIngredientes(newIngredientes);
   };
   const handleAddPasso = () => {
-    setPassos([...passos, {passo: ''}]);
+    setPassos([...passos, {DESCRICAO: ''}]);
   };
   const handleRemovePasso = index => {
     setPassos(passos.filter((_, i) => i !== index));
   };
   const handleChangePasso = (index, value) => {
     const newPassos = [...passos];
-    newPassos[index] = {...newPassos[index], passo: value};
+    newPassos[index] = {...newPassos[index], DESCRICAO: value};
     setPassos(newPassos);
   };
 
@@ -91,10 +91,10 @@ const EditarReceita = ({navigation}) => {
 
   const ListarIngredientes = () =>{
       for(i = 0; i < ingredientes.length; i++){
-          console.log(ingredientes[i].ingrediente)
+          console.log(ingredientes[i].NOME)
       }
       for(i = 0; i < passos.length; i++){
-          console.log(passos[i].passo)	
+          console.log(passos[i].DESCRICAO)	
       }
   }
   const AtualizarIngredientesPassos = () => {
@@ -103,7 +103,7 @@ const EditarReceita = ({navigation}) => {
         for (i = 0; i < ingredientes.length; i++) {
           realizarCadastroIngrediente = await Api.post('/ingredientes', {
             ID_RECEITA: page,
-            NOME: ingredientes[i].ingrediente,
+            NOME: ingredientes[i].NOME,
           });
         }
       };
@@ -114,7 +114,7 @@ const EditarReceita = ({navigation}) => {
         for (i = 0; i < passos.length; i++) {
           realizarCadastroPasso = await Api.post('/passos', {
             ID_RECEITA: page,
-            DESCRICAO: passos[i].passo,
+            DESCRICAO: passos[i].DESCRICAO,
             NUMERO: i + 1,
           });
         }
