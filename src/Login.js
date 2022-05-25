@@ -70,7 +70,7 @@ const Login = ({navigation}) => {
 
   const btnSubmit = () => {
     let deveCarregar = true;
-
+    console.log("hello, world")
     if (email === '') {
       setInputEmail({
         ...styles.inputEmail,

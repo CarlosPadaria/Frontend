@@ -20,7 +20,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DesativarConta from "./DesativarConta";
 import ListaReceitas from "./ListaReceitas";
 import PaginaReceita from "./PaginaReceita";
-
+import EditarReceita from "./EditarReceita";
 const Receita = () => {
     const Stack = createNativeStackNavigator();
     return (
@@ -37,6 +37,17 @@ const Receita = () => {
         name="PaginaReceita"
     
         component={PaginaReceita}
+        options={{
+          headerShown: true,
+         // headerTransparent: true,
+          headerShadowVisible: false,
+          title: '',
+        }}
+      />
+      <Stack.Screen
+        name="EditarReceita"
+    
+        component={EditarReceita}
         options={{
           headerShown: true,
          // headerTransparent: true,
