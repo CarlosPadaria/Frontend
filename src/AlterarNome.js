@@ -73,7 +73,7 @@ const AlterarNome = ({navigation}) => {
     } else {
       setStyleInput({
         ...styleInput,
-        borderColor: '#000000',
+        borderColor: '#D6D6D6',
       });
       setMensagemNome('');
       return true;
@@ -125,14 +125,17 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#ffffff',
     width: '70%',
-    marginBottom: 15,
+    //marginBottom: 15,
     marginTop: 35,
     color: '#000000',
     fontSize: 17,
     padding: 10,
-    borderWidth: 2,
+    borderBottomWidth: 2,
+   // borderLeftWidth: 2,
     marginBottom: 15,
-    borderColor: '#000000',
+   // borderRadius: 30,
+    borderColor: '#D6D6D6',
+  //borderBottomColor: '#ebebeb',
     fontFamily: 'Outfit-Regular',
   },
   btnSubmit: {

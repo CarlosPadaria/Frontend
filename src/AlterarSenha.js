@@ -28,9 +28,9 @@ const AlterarSenha = ({navigation}) => {
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [mensagemSenha, setMensagemSenha] = useState('');
   const [mensagemConfirmarSenha, setMensagemConfirmarSenha] = useState('');
-  const [styleInput, setStyleInput] = useState(styles.input);
+ // const [styleInput, setStyleInput] = useState(styles.input);
   const [response, setResponse] = useState({});
-  //const [verificar, setVerificar] = useState(false);
+  // const [verificar, setVerificar] = useState(false);
   const [styleInputSenha, setStyleInputSenha] = useState(styles.inputSenha);
   const [styleInputConfirmarSenha, setStyleInputConfirmarSenha] = useState(
     styles.inputConfirmarSenha,
@@ -38,13 +38,13 @@ const AlterarSenha = ({navigation}) => {
   const btnCancel = () => {
     navigation.navigate('Options');
   };
- 
+
   const handleValidarConfirmarSenha = () => {
     let Valido = true;
     if (confirmarSenha === '') {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
-        borderColor: '#000000',
+        borderColor: '#D6D6D6',
       });
       setMensagemConfirmarSenha('');
     } else if (senha != confirmarSenha) {
@@ -70,7 +70,7 @@ const AlterarSenha = ({navigation}) => {
       setMensagemSenha('');
       setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#000000',
+        borderColor: '#D6D6D6',
       });
     } else if (senha.length < 6) {
       setStyleInputSenha({
@@ -123,28 +123,27 @@ const AlterarSenha = ({navigation}) => {
     }
 
     if (Validar === true) {
+      console.log(user.ID_USUARIO);
       const AlterarSenha = async () => {
         try {
           const realizarAlteracao = await Api.patch(
-            '/senha/' + user.ID_USUARIO,
-            {
-              SENHA: senha,
-            },
+            `/senha/${user.ID_USUARIO}`,
+            {SENHA: senha},
           );
           setResponse(realizarAlteracao);
           setUser({
             ...user,
             SENHA: senha,
           });
-          setVerificar(false);
+          // setVerificar(false);
           navigation.navigate('Options');
         } catch {
           setStyleInputSenha({
             ...styles.inputSenha,
             borderColor: '#ff0000',
           });
-          setMensagemEmail('Falha ao alterar senha');
-          console.log('faiou');
+          setMensagemSenha('Falha ao alterar senha');
+          console.log();
         }
       };
 
@@ -162,6 +161,8 @@ const AlterarSenha = ({navigation}) => {
         autoCorrect={false}
         secureTextEntry={true}
         autoComplete={'password'}
+        placeholder={'Informe a nova senha'}
+        autoCapitalize={'none'}
         maxLength={32}></TextInput>
       <Text style={styles.passMsg}>{mensagemSenha}</Text>
       <Text style={styles.textoDoInput}>Confirmar Senha</Text>
@@ -172,6 +173,8 @@ const AlterarSenha = ({navigation}) => {
         autoCorrect={false}
         secureTextEntry={true}
         autoComplete={'name'}
+        placeholder={'Confirme a nova senha'}
+        autoCapitalize={'none'}
         maxLength={32}></TextInput>
       <Text style={styles.passMsg}>{mensagemConfirmarSenha}</Text>
       <View style={styles.containerFatherInput}>
@@ -200,21 +203,33 @@ const styles = StyleSheet.create({
   inputSenha: {
     backgroundColor: '#ffffff',
     width: '70%',
+ //   marginBottom: 15,
+  //  marginTop: 35,
     color: '#000000',
     fontSize: 17,
-    // padding: 10,
-    borderWidth: 2,
-    borderColor: '#000000',
+    padding: 10,
+    borderBottomWidth: 2,
+   // borderLeftWidth: 2,
+    marginBottom: 15,
+   // borderRadius: 30,
+    borderColor: '#D6D6D6',
+  //borderBottomColor: '#ebebeb',
     fontFamily: 'Outfit-Regular',
   },
   inputConfirmarSenha: {
     backgroundColor: '#ffffff',
     width: '70%',
+    //marginBottom: 15,
+   // marginTop: 35,
     color: '#000000',
     fontSize: 17,
-    // padding: 10,
-    borderWidth: 2,
-    borderColor: '#000000',
+    padding: 10,
+    borderBottomWidth: 2,
+   // borderLeftWidth: 2,
+    marginBottom: 15,
+   // borderRadius: 30,
+    borderColor: '#D6D6D6',
+  //borderBottomColor: '#ebebeb',
     fontFamily: 'Outfit-Regular',
   },
   passMsg: {
@@ -274,7 +289,7 @@ const styles = StyleSheet.create({
   submitText: {
     color: '#ffffff',
     fontSize: 18,
-    //fontWeight: 'bold',
+    // fontWeight: 'bold',
     fontFamily: 'Outfit-SemiBold',
   },
 });

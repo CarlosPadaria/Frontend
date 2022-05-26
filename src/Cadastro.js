@@ -290,6 +290,7 @@ const Cadastro = ({navigation}) => {
         <TextInput
           placeholder="Email"
           style={styleInputEmail}
+          autoCapitalize={'none'}
           autoCorrect={false}
           autoComplete={'email'}
           //autoFocus={true}
@@ -303,6 +304,7 @@ const Cadastro = ({navigation}) => {
         <Icon name="user" style={styles.IconUser} size={25}></Icon>
         <TextInput
           placeholder="Senha"
+          autoCapitalize={'none'}
           style={styleInputSenha}
           autoComplete={'password'}
           secureTextEntry={true}
@@ -320,6 +322,7 @@ const Cadastro = ({navigation}) => {
           style={styleInputConfirmarSenha}
           autoComplete={'password'}
           value={confirmarSenha}
+          autoCapitalize={'none'}
           onChangeText={setConfirmarSenha}
           secureTextEntry={true}
           // autoFocus={true}

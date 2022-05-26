@@ -37,7 +37,7 @@ const DesativarConta = ({navigation}) => {
   useEffect(() => {
     setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#000000',
+        borderColor: '#D6D6D6',
     })
     setMensagemSenha('');
   },[senha])
@@ -45,7 +45,7 @@ const DesativarConta = ({navigation}) => {
   useEffect(() => {
     setStyleInputEmail({
         ...styleInputEmail,
-        borderColor: '#000000',
+        borderColor: '#D6D6D6',
     })
     setMensagemEmail('')
   }, [email])
@@ -111,16 +111,16 @@ const DesativarConta = ({navigation}) => {
   return (
     <KeyboardAvoidingView style={styles.background}>
       <TextInput
-        placeholder="digite seu email para confirmar"
-        style={styles.inputEmail}
+        placeholder="Digite seu email para confirmar"
+        style={styleInputEmail}
         value={email}
         onChangeText={setEmail}
         autoCorrect={false}
         maxLength={100}></TextInput>
       <Text style={styles.desativarContaText}>{mensagemEmail}</Text>
       <TextInput
-        placeholder="digite sua senha para confirmar"
-        style={styles.inputSenha}
+        placeholder="Digite sua senha para confirmar"
+        style={styleInputSenha}
         value={senha}
         onChangeText={setSenha}
         secureTextEntry={true}
@@ -165,28 +165,34 @@ const styles = StyleSheet.create({
   inputSenha: {
     backgroundColor: '#ffffff',
     width: '70%',
-    marginBottom: 15,
-    marginTop: 35,
+    //marginBottom: 15,
+    marginTop: 20,
     color: '#000000',
     fontSize: 17,
     padding: 10,
-    borderWidth: 2,
+    borderBottomWidth: 2,
+   // borderLeftWidth: 2,
     marginBottom: 15,
-    borderColor: '#000000',
+   // borderRadius: 30,
+    borderColor: '#D6D6D6',
+  //borderBottomColor: '#ebebeb',
     fontFamily: 'Outfit-Regular',
   },
 
   inputEmail: {
     backgroundColor: '#ffffff',
     width: '70%',
-    marginBottom: 15,
-    marginTop: 35,
+    //marginBottom: 15,
+    marginTop: 20,
     color: '#000000',
     fontSize: 17,
     padding: 10,
-    borderWidth: 2,
+    borderBottomWidth: 2,
+   // borderLeftWidth: 2,
     marginBottom: 15,
-    borderColor: '#000000',
+   // borderRadius: 30,
+    borderColor: '#D6D6D6',
+  //borderBottomColor: '#ebebeb',
     fontFamily: 'Outfit-Regular',
   },
   btnSubmit: {

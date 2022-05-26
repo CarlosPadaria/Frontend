@@ -140,7 +140,7 @@ const CadastrarReceitas = ({navigation}) => {
             IMAGEM: imagem,
             PORCAO: porcao,
           });
-         // console.log(realizarCadastro.data);
+         // console.  log(realizarCadastro.data);
           setResponse(realizarCadastro);
           setVerificar(true);
         } catch {
@@ -172,6 +172,7 @@ const CadastrarReceitas = ({navigation}) => {
             blurOnSubmit={true}
             style={styles.input}
             value={titulo}
+            placeholder={'Digite o título da receita'}
             onChangeText={setTitulo}></TextInput>
         </View>
         <Text style={styles.textoDoInput}>Imagem</Text>
@@ -188,7 +189,7 @@ const CadastrarReceitas = ({navigation}) => {
             textContentType="URL"
             contextMenuHidden={false}
             onChangeText={setImagem}
-            placeholder="Coloque o link da imagem"></TextInput>
+            placeholder="Coloque o link da imagem a ser utilizada"></TextInput>
         </View>
         <Text style={styles.textoDoInput}>Porção</Text>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -197,8 +198,9 @@ const CadastrarReceitas = ({navigation}) => {
             style={styles.input}
             multiline={true}
             blurOnSubmit={true}
-            placeholder=""
+            //placeholder=""
             value={porcao}
+            placeholder={'Digite a porção da receita'}
             onChangeText={setPorcao}></TextInput>
         </View>
         <Text style={styles.textoDoInput}>Ingredientes</Text>
@@ -217,6 +219,7 @@ const CadastrarReceitas = ({navigation}) => {
               style={styles.inputIngrediente}
               multiline={true}
               blurOnSubmit={true}
+              placeholder={'Digite o ingrediente'}
               maxLength={50}
             />
             <Icon
@@ -248,6 +251,7 @@ const CadastrarReceitas = ({navigation}) => {
               multiline={true}
               blurOnSubmit={true}
               maxLength={100}
+              placeholder={'Digite o passo ' + (index + 1)}
               onChangeText={value => handleChangePasso(index, value)}
               style={styles.inputIngrediente}
             />
@@ -329,25 +333,35 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   input: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F7F8F8',
     width: '50%',
+    marginBottom: 15,
+    marginTop: 20,
     color: '#000000',
-    fontSize: 20,
-    // padding: 10,
+    fontSize: 17,
+    padding: 10,
     borderWidth: 2,
-    borderColor: '#000000',
+    marginBottom: 15,
+  
+    borderColor: '#F7F8F8',
     fontFamily: 'Outfit-Regular',
+    borderRadius: 14,
+   // border
   },
   inputIngrediente: {
-    backgroundColor: '#ffffff',
-    width: '43%',
-    color: '#000000',
-    fontSize: 20,
-    // padding: 10,
-    borderWidth: 2,
-    borderColor: '#000000',
-    fontFamily: 'Outfit-Regular',
+    backgroundColor: '#F7F8F8',
+    width: '50%',
     marginBottom: 15,
+    marginTop: 20,
+    color: '#000000',
+    fontSize: 17,
+    padding: 10,
+    borderWidth: 2,
+    marginBottom: 15,
+  
+    borderColor: '#F7F8F8',
+    fontFamily: 'Outfit-Regular',
+    borderRadius: 14,
   },
   background: {
     flex: 1,

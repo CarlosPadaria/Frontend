@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Api from './Api';
 import {AuthContext} from './contexts/Auth';
-
+import Icon from 'react-native-vector-icons/AntDesign';
 const ListaReceitas = ({navigation}) => {
   const {logged, setLogged, user, setUser, loading, setLoading, setPage, page} = useContext(AuthContext);
   // INVERTER O ARRAY DE RECEITAS PARA QUE APAREÇA O ULTIMO CADASTRADO
@@ -28,6 +28,8 @@ const ListaReceitas = ({navigation}) => {
   const [modalActive, setModalActive] = useState(false);
   const [modalApagar, setModalApagar] = useState(false);
   const [checkBox, setCheckBox] = useState(false);
+  const [filteredData, setFilteredData] = useState([{}])
+  const [search, setSearch] = useState('');
   useEffect(() => {
     CarregarReceitas();
   }, [,loading]);
@@ -45,6 +47,7 @@ const ListaReceitas = ({navigation}) => {
         const carregar = await Api.get('/receitas');
 
         setReceitas(carregar.data.reverse());
+        setFilteredData(carregar.data.reverse())
       } catch {
         console.log('falha ao carregar');
       }
@@ -64,8 +67,37 @@ const ListaReceitas = ({navigation}) => {
     funcApagar();
   }
   
+  const SearchFilter = (text) =>{
+    if(text){
+      const newData = receitas.filter((item) =>{
+        const itemData = item.TITULO ? item.TITULO.toUpperCase() : ''.toUpperCase() 
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+    setFilteredData(newData);
+    setSearch(text);
+    }
+    else{
+      setFilteredData(receitas)
+      setSearch(text);
+    }
+
+  }
+
   return (
-    <View style={{backgroundColor: '#EBEBEB', flex: 1, marginBottom: 10}}>
+    <View style={{backgroundColor: '#48BF84', flex: 1, marginBottom: 10}}>
+
+      <View style={{alignItems: 'center', marginTop: 15, marginBottom: 0}}>
+        
+        <TextInput style={styles.input}
+          value={search}
+          onChangeText={(text) => SearchFilter(text)}
+          placeholder='Pesquisar receita, ex: "pizza"'
+        >
+
+        </TextInput>
+      </View>
+      <Icon size={25} style={styles.Icon} name='search1'></Icon>
       <Modal
         visible={modalActive}
         onRequestClose={() => {
@@ -134,9 +166,9 @@ const ListaReceitas = ({navigation}) => {
       </Modal>
 
       <FlatList
-        data={receitas}
+        data={filteredData}
         //keyExtractor={(item, index) => index.toString()}
-        style={{marginTop: 35}}
+        style={{marginTop: 15, backgroundColor: '#ebebeb',}}
         contentContainerStyle={{
           marginHorizontal: 20,
           alignItems: 'center',
@@ -189,6 +221,27 @@ const ListaReceitas = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  Icon:{
+    position: 'absolute',
+    top: 27,
+    left: 290,
+  },
+  input:{
+    paddingRight:44,
+    backgroundColor: '#ffffff',
+    width: '70%',
+    //marginBottom: 15,
+   // marginTop: 35,
+    color: '#000000',
+    fontSize: 17,
+    padding: 10,
+    borderBottomWidth: 2,
+   // borderLeftWidth: 2,
+    borderRadius: 30,
+    borderColor: '#D6D6D6',
+  //borderBottomColor: '#ebebeb',
+    fontFamily: 'Outfit-Regular',
+  },
   modalText:{
     marginBottom: 15,
     textAlign: 'center'
@@ -216,6 +269,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ffffff',

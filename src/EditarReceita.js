@@ -289,6 +289,8 @@ const EditarReceita = ({navigation}) => {
 
 const styles = StyleSheet.create({
   // do the styles for the input
+  /*
+  */ 
   addIngrediente: {
     backgroundColor: '#48BF84',
     width: '50%',
@@ -339,25 +341,35 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   input: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F7F8F8',
     width: '50%',
+    marginBottom: 15,
+    marginTop: 20,
     color: '#000000',
-    fontSize: 20,
-    // padding: 10,
+    fontSize: 17,
+    padding: 10,
     borderWidth: 2,
-    borderColor: '#000000',
+    marginBottom: 15,
+  
+    borderColor: '#F7F8F8',
     fontFamily: 'Outfit-Regular',
+    borderRadius: 14,
+   // border
   },
   inputIngrediente: {
-    backgroundColor: '#ffffff',
-    width: '43%',
-    color: '#000000',
-    fontSize: 20,
-    // padding: 10,
-    borderWidth: 2,
-    borderColor: '#000000',
-    fontFamily: 'Outfit-Regular',
+    backgroundColor: '#F7F8F8',
+    width: '50%',
     marginBottom: 15,
+    marginTop: 20,
+    color: '#000000',
+    fontSize: 17,
+    padding: 10,
+    borderWidth: 2,
+    marginBottom: 15,
+  
+    borderColor: '#F7F8F8',
+    fontFamily: 'Outfit-Regular',
+    borderRadius: 14,
   },
   background: {
     flex: 1,

@@ -131,6 +131,7 @@ const Login = ({navigation}) => {
           autoCorrect={false}
           autoComplete={'email'}
           maxLength={100}
+          autoCapitalize={'none'}
         />
         <Icon name="mail" style={styles.IconEmail} size={25}></Icon>
         <Text style={styles.mensagemEmail}>{mensagemEmail}</Text>
@@ -142,6 +143,7 @@ const Login = ({navigation}) => {
           autoComplete={'password'}
           secureTextEntry={true}
           maxLength={32}
+          autoCapitalize={'none'}
         />
         <Icon name="lock" style={styles.IconSenha} size={29}></Icon>
         <Text style={styles.mensagemEmail}>{mensagemSenha}</Text>

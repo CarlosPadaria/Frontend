@@ -40,6 +40,9 @@ const OptionsScreen = () => {
          // headerTransparent: true,
           headerShadowVisible: false,
           title: 'Atualizar Nome',
+          headerTitleStyle:{
+            fontFamily: 'Outfit-Medium',
+          },
         }}
       />
       <Stack.Screen
@@ -50,6 +53,11 @@ const OptionsScreen = () => {
           headerShown: true,
          // headerTransparent: true,
           headerShadowVisible: false,
+          //change the title font family
+          headerTitleStyle:{
+            fontFamily: 'Outfit-Medium',
+          },
+    
           title: 'Atualizar Senha',
         }}
       />
@@ -62,6 +70,9 @@ const OptionsScreen = () => {
          // headerTransparent: true,
           headerShadowVisible: false,
           title: 'Desativar Conta',
+          headerTitleStyle:{
+            fontFamily: 'Outfit-Medium',
+          },
         }}
       />
       </Stack.Navigator>
