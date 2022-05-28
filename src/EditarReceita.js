@@ -31,6 +31,7 @@ const EditarReceita = ({navigation}) => {
   const [mensagem, setMensagem] = useState('');
   const [verificar, setVerificar] = useState(false);
   const [navegar, setNavegar]= useState(false);
+  const [tempo, setTempo] = useState('');
   let realizarCadastro = {};
   let realizarCadastroIngrediente = {};
   let realizarCadastroPasso = {};
@@ -81,6 +82,7 @@ const EditarReceita = ({navigation}) => {
           TITULO: titulo,
           PORCAO: porcao,
           IMAGEM: imagem,
+          TEMPO: tempo,
         });
         setResponse(atualizar.data);
       } catch {
@@ -146,6 +148,7 @@ const EditarReceita = ({navigation}) => {
         setTitulo(carregar.data.TITULO);
         setPorcao(carregar.data.PORCAO);
         setImagem(carregar.data.IMAGEM);
+        setTempo(carregar.data.TEMPO);
       } catch {
         console.log('falha ao carregar');
       }
@@ -208,6 +211,18 @@ const EditarReceita = ({navigation}) => {
             placeholder=""
             value={porcao}
             onChangeText={setPorcao}></TextInput>
+        </View>
+        <Text style={styles.textoDoInput}>Tempo</Text>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TextInput
+            maxLength={100}
+            style={styles.input}
+            multiline={true}
+            blurOnSubmit={true}
+            //placeholder=""
+            value={tempo}
+            placeholder={'Digite o tempo da receita'}
+            onChangeText={setTempo}></TextInput>
         </View>
         <Text style={styles.textoDoInput}>Ingredientes</Text>
 

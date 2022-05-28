@@ -29,6 +29,7 @@ const CadastrarReceitas = ({navigation}) => {
   const [response, setResponse] = useState({});
   const [mensagem, setMensagem] = useState('');
   const [verificar, setVerificar] = useState(false);
+  const [tempo, setTempo] = useState('');
   let realizarCadastro = {};
   let realizarCadastroIngrediente = {};
   let realizarCadastroPasso = {};
@@ -133,6 +134,8 @@ const CadastrarReceitas = ({navigation}) => {
             ID_USUARIO: user.ID_USUARIO,
             IMAGEM: imagem,
             PORCAO: porcao,
+            TEMPO: tempo,
+            ATIVA: 'true',
           });
          // console.  log(realizarCadastro.data);
           setResponse(realizarCadastro);
@@ -197,8 +200,19 @@ const CadastrarReceitas = ({navigation}) => {
             placeholder={'Digite a porção da receita'}
             onChangeText={setPorcao}></TextInput>
         </View>
+        <Text style={styles.textoDoInput}>Tempo</Text>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TextInput
+            maxLength={100}
+            style={styles.input}
+            multiline={true}
+            blurOnSubmit={true}
+            //placeholder=""
+            value={tempo}
+            placeholder={'Digite o tempo da receita'}
+            onChangeText={setTempo}></TextInput>
+        </View>
         <Text style={styles.textoDoInput}>Ingredientes</Text>
-
         {ingredientes.map((ingrediente, index) => (
           <View
             key={index}
@@ -355,7 +369,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     width: '70%',
     //marginTop: 50,
-   // marginBottom: 15,
+    marginBottom: 15,
     color: '#000000',
     fontSize: 17,
    // padding: 10,
@@ -367,7 +381,7 @@ const styles = StyleSheet.create({
     paddingLeft:20,
     elevation: 4,
     borderWidth: 2,
-    marginBottom: 20,
+
   },
   inputIngredienteFocus: {
     backgroundColor: '#ffffff',

@@ -16,6 +16,7 @@ import {
   FlatList,
   Modal,
   Pressable,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Api from './Api';
 import {AuthContext} from './contexts/Auth';
@@ -92,7 +93,7 @@ const ListaReceitas = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: '#48BF84', flex: 1, marginBottom: 10}}>
-      <View style={{alignItems: 'center', marginTop: 15, marginBottom: 0}}>
+      <View style={{alignItems: 'center', marginBottom: 10, borderRadius: 28}}>
         <TextInput
           style={styles.input}
           value={search}
@@ -169,7 +170,7 @@ const ListaReceitas = ({navigation}) => {
       <FlatList
         data={filteredData}
         //keyExtractor={(item, index) => index.toString()}
-        style={{marginTop: 15, backgroundColor: '#F0F0F0'}}
+        style={{backgroundColor: '#F0F0F0'}}
         contentContainerStyle={{
          // flex: 1,
           marginHorizontal: 20,
@@ -178,12 +179,19 @@ const ListaReceitas = ({navigation}) => {
         }}
         renderItem={({item}) => (
           // do the css to get the full image
-          <View style={styles.listItem}>
-            <SafeAreaView key={item.ID_RECEITA} style={{borderRadius: 30}}>
+          <TouchableWithoutFeedback
+          onPress={()=>{
+            setPage(item.ID_RECEITA);
+                  setNavegarPaginaReceita(true);
+                  navigation.navigate('PaginaReceita');
+          }}
+          >
+          <View style={styles.listItem} >
+            <SafeAreaView key={item.ID_RECEITA} /*style={{borderRadius: 30}}*/>
               <Image
                 source={{uri: item.IMAGEM}}
                 style={{
-                  width: 350,
+                  width: 360,
                   height: 150,
                   // elevation: 5,
                   //
@@ -210,15 +218,6 @@ const ListaReceitas = ({navigation}) => {
                   {item.TITULO}
                 </Text>
               </TouchableOpacity>
-              {item.ID_USUARIO === user.ID_USUARIO ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    setModalActive(true);
-                    setPage(item.ID_RECEITA);
-                  }}>
-                  <Text>Editar</Text>
-                </TouchableOpacity>
-              ) : null}
               <View
                 style={{
                   flexDirection: 'row',
@@ -245,7 +244,7 @@ const ListaReceitas = ({navigation}) => {
                     fontSize: 26,
                     color: '#48BF84'
                   }}
-                  >1H</Text>
+                  >{item.TEMPO}</Text>
                 </View>
                 <View
                   style={{
@@ -254,7 +253,7 @@ const ListaReceitas = ({navigation}) => {
                     alignItems: 'center',
                     padding: 50,
                   }}>
-                  <Icon size={46} color='#48BF84' name="food-fork-drink"></Icon>
+                  <Icon size={46} color='#48BF84' name="room-service-outline"></Icon>
                   <Text style={{
                     fontSize: 18,
                   }}>rendimento</Text>
@@ -263,11 +262,25 @@ const ListaReceitas = ({navigation}) => {
                     color: '#48BF84',
                     fontSize: 26,
                   }}
-                  >1</Text>
+                  >{item.PORCAO}</Text>
                 </View>
+                
+              </View>
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              {item.ID_USUARIO === user.ID_USUARIO ? (
+                <TouchableOpacity
+                style={styles.button}
+                  onPress={() => {
+                    setModalActive(true);
+                    setPage(item.ID_RECEITA);
+                  }}>
+                  <Text style={styles.submitText}>Alterar</Text>
+                </TouchableOpacity>
+              ) : null}
               </View>
             </SafeAreaView>
           </View>
+          </TouchableWithoutFeedback>
         )}
       />
     </View>
@@ -279,6 +292,27 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 27,
     left: 290,
+  },
+  button: {
+    padding: 10,
+    marginBottom: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: '#48BF84',
+    width: '30%',
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 28,
+    // paddingTop: 50,
+  },
+  submitText: {
+    color: '#ffffff',
+    fontSize: 18,
+   // fontWeight: 'bold',
+   // padding: 50,
+    
+    fontFamily: 'Outfit-Regular',
   },
   input: {
     paddingRight: 44,
@@ -305,14 +339,14 @@ const styles = StyleSheet.create({
   outerview: {
     flex: 1,
     justifyContent: 'center',
-    // backgroundColor: 'rgba(0,0,0,0.2)',
+     backgroundColor: 'rgba(0,0,0,0.2)',
     alignItems: 'center',
   },
   modalView: {
     backgroundColor: 'white',
     borderRadius: 30,
-    //padding: 35,
-    width: '90%',
+    padding: 35,
+    width: 200,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -321,7 +355,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    // elevation: 5,
+    elevation: 5,
   },
   container: {
     flex: 1,
@@ -332,7 +366,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   listItem: {
-    //padding: 30,
+   // padding: 30,
     borderRadius: 10,
     marginTop: 40,
     // paddingLeft: 10,

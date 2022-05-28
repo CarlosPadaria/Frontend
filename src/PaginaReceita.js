@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import {AuthContext} from './contexts/Auth';
 import Api from './Api';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const PaginaReceita = () => {
   const {logged, setLogged, user, setUser, loading, setLoading, setPage, page} =
     useContext(AuthContext);
@@ -29,12 +30,6 @@ const PaginaReceita = () => {
     setLoadingData(true);
     console.log(page);
   }, []);
-
-  useEffect(() => {
-    if (loadingData === true) {
-      console.log(ingredientes[0].NOME);
-    }
-  }, [loadingData]);
 
   const CarregarReceita = () => {
     const funcCarregar = async () => {
@@ -74,39 +69,146 @@ const PaginaReceita = () => {
   };
 
   return (
-    <View>
-      <TouchableOpacity onPress={CarregarIngredientes}>
-        <Text>Carregar</Text>
-      </TouchableOpacity>
-      <Image
-        source={{uri: receita.IMAGEM}}
+    <ScrollView style={{backgroundColor: '#F0F0F0'}}>
+      <View
         style={{
-          width: 350,
-          height: 250,
-        }}></Image>
-        <Text>Ingredientes</Text>
+          backgroundColor: '#ffffff',
+          marginTop: 25,
+          paddingBottom: 20,
+          marginBottom: 5,
+        }}>
+        <Image
+          source={{uri: receita.IMAGEM}}
+          style={{
+            width: 412,
+            height: 250,
+          }}></Image>
+        <View style={{marginTop: 20}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F0F0F0',
+                padding: 50,
+                marginRight: 5,
+              }}>
+              <Icon size={46} color="#48BF84" name="clock-outline"></Icon>
+              <Text
+                style={{
+                  fontSize: 18,
+                }}>
+                tempo
+              </Text>
+              <Text
+                style={{
+                  fontSize: 26,
+                  color: '#48BF84',
+                }}>
+                {receita.TEMPO}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 50,
+                marginLeft: 5,
+               // borderLeftWidth: 2,
+              //  borderColor: '#ADADAD',
+                backgroundColor: '#F0F0F0',
+              }}>
+              <Icon size={46} color="#48BF84" name="room-service-outline"></Icon>
+              <Text
+                style={{
+                  fontSize: 18,
+                }}>
+                rendimento
+              </Text>
+              <Text
+                style={{
+                  color: '#48BF84',
+                  fontSize: 26,
+                }}>
+                {receita.PORCAO}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={{
+        backgroundColor: '#ffffff',
+        marginTop: 10,
+        paddingTop: 25,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <View style={{
+          width: '70%',
+          flexDirection: 'row',
+          backgroundColor: '#ffffff',
+         // justifyContent: 'center',
+        //  alignItems: 'center',
+        }}>
+          <Icon size={46} color="#48BF84" name='food'
+          ></Icon>
+          <View style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column'
+          }}>
+          <Text style={{
+            left: "20%",
+            fontSize: 18,
+            color: '#48BF84',
+          }}>INGREDIENTES</Text>
+          </View>
+        </View>
+      </View>
+      <View style={{
+            flexDirection: 'column',
+           // width: '70%',
+            backgroundColor: '#ffffff',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: 20,
+          }}>
       {loadingData === true ? (
         ingredientes.map((item, index) => (
-           
-          <View key={index}>
-            <Text>{item.NOME}</Text>
+          <View style={{
+            flexDirection: 'row',
+            width: '70%',
+           // paddingTop: 25,
+          }} key={index}>
+            <Icon name='circle-medium' color={'#F25744'} size={25}></Icon>
+            <Text style={{
+              fontSize: 18,
+            }}>{item.NOME}</Text>
           </View>
-        )   )
+        ))
       ) : (
         <Text>Carregando</Text>
       )}
-        <Text>Passos</Text>
-        {loadingData === true ? (
-            passos.map((item, index) => (
-                <View key={index}>
-                    <Text>{item.DESCRICAO}</Text>
-                </View>
-            )
-        )
-        ) : (
-            <Text>Carregando</Text>
-        )}
-    </View>
+      </View>
+      <Text>Passos</Text>
+      {loadingData === true ? (
+        passos.map((item, index) => (
+          <View key={index}>
+            <Text>{item.DESCRICAO}</Text>
+          </View>
+        ))
+      ) : (
+        <Text>Carregando</Text>
+      )}
+    </ScrollView>
   );
 };
 export default PaginaReceita;

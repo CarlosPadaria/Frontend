@@ -165,10 +165,14 @@ const Cadastro = ({navigation}) => {
     else if(verificar == true)
     {
       setUser(response.data);
+     // setVerificar(false);
       setLogged(true);
     }
   }, [verificar]);
 
+  useEffect(() =>{
+    setVerificar(false)
+  },[])
 
  
   useEffect(() => {
@@ -252,6 +256,7 @@ const Cadastro = ({navigation}) => {
             NOME: removerEspacos(nome),
             SENHA: senha,
             TIPO_USUARIO: 'USUARIO',
+            ATIVO: "true"
           });
           setResponse(realizarCadastro)
           setVerificar(true);
