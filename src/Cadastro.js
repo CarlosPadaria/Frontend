@@ -55,19 +55,20 @@ const Cadastro = ({navigation}) => {
       setMensagemNome('');
       setStyleInputNome({
         ...styleInputNome,
-        borderColor: '#000000',
+        borderColor: '#ffffff',
       });
     } else if (nome.length < 3 || !patternNome.test(nome)) {
       setStyleInputNome({
         ...styleInputNome,
         borderColor: '#ff0000',
+       // borderWidth: 2,
       });
       setMensagemNome('Pelo menos 3 caractéres, sem caractéres especiais');
       Valido = false;
     } else {
       setStyleInputNome({
         ...styleInputNome,
-        borderColor: '#00ff00',
+        borderColor: '#48BF84',
       });
       setMensagemNome('');
     }
@@ -83,19 +84,20 @@ const Cadastro = ({navigation}) => {
       setMensagemEmail('');
       setStyleInputEmail({
         ...styleInputEmail,
-        borderColor: '#000000',
+        borderColor: '#ffffff',
       });
     } else if (!patternEmail.test(email)) {
       setStyleInputEmail({
         ...styleInputEmail,
         borderColor: '#ff0000',
+       // borderWidth: 2,
       });
       setMensagemEmail('Você precisa usar um e-mail válido');
       Valido = false;
     } else {
       setStyleInputEmail({
         ...styleInputEmail,
-        borderColor: '#00ff00',
+        borderColor: '#48BF84',
       });
       setMensagemEmail('');
     }
@@ -107,19 +109,20 @@ const Cadastro = ({navigation}) => {
       setMensagemSenha('');
       setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#000000',
+        borderColor: '#ffffff',
       });
     } else if (senha.length < 6) {
       setStyleInputSenha({
         ...styleInputSenha,
         borderColor: '#ff0000',
+       // borderWidth: 2,
       });
       setMensagemSenha('Pelo menos 6 caractéres');
       Valido = false;
     } else {
       setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#00ff00',
+        borderColor: '#48BF84',
       });
       setMensagemSenha('');
     }
@@ -133,20 +136,22 @@ const Cadastro = ({navigation}) => {
      if (confirmarSenha === '') {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
-        borderColor: '#000000',
+        borderColor: '#ffffff',
       });
       setMensagemConfirmarSenha('');
     } else if (senha != confirmarSenha) {
       setStyleInputConfirmarSenha({
         ...styleInputSenha,
+       // borderWidth: 2,
         borderColor: '#ff0000',
+        
       });
       Valido = false;
       setMensagemConfirmarSenha('A senhas precisam ser identicas');
     } else {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
-        borderColor: '#00ff00',
+        borderColor: '#48BF84',
       });
       setMensagemConfirmarSenha('');
     }
@@ -189,6 +194,7 @@ const Cadastro = ({navigation}) => {
       setStyleInputNome({
         ...styleInputNome,
         borderColor: '#ff0000',
+      //  borderWidth: 2,
       });
       setMensagemNome('Você precisa preencher este campo');
       Valido = false;
@@ -198,6 +204,7 @@ const Cadastro = ({navigation}) => {
       setStyleInputEmail({
         ...styleInputEmail,
         borderColor: '#ff0000',
+      //  borderWidth: 2,
       });
       setMensagemEmail('Você precisa preencher este campo');
       Valido = false;
@@ -207,6 +214,7 @@ const Cadastro = ({navigation}) => {
       setStyleInputSenha({
         ...styleInputSenha,
         borderColor: '#ff0000',
+       // borderWidth: 2,
       });
       setMensagemSenha('Você precisa preencher este campo');
       Valido = false;
@@ -216,6 +224,7 @@ const Cadastro = ({navigation}) => {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
         borderColor: '#ff0000',
+      //  borderWidth: 2,
       });
       Valido = false;
       setMensagemConfirmarSenha('Você precisa preencher este campo');

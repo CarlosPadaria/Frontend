@@ -74,7 +74,7 @@ const Options = ({navigation}) => {
             editable={false}
             selectTextOnFocus={false}
             value={user.EMAIL}
-            style={styles.Input}></TextInput>
+            style={styles.InputEmail}></TextInput>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -86,7 +86,7 @@ const Options = ({navigation}) => {
         
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.btnSair} onPress={() =>{
+          style={styles.btnDesativar} onPress={() =>{
             navigation.navigate('DesativarConta');
           }}>
           <Text style={styles.sairText}>Desativar Conta</Text>
@@ -102,11 +102,17 @@ export default Options;
 
 const styles = StyleSheet.create({
   IconOlhoSenha:{
-    left: 200,
+    left: 215,
     top: 210,
     position: 'absolute'
   },
   btnSair: {
+    marginTop: 40,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnDesativar: {
     marginTop: 80,
     textAlign: 'center',
     alignItems: 'center',
@@ -114,6 +120,8 @@ const styles = StyleSheet.create({
   },
   sairText: {
     color: 'red',
+    fontSize: 15,
+    fontFamily: 'Outfit-Medium',
   },
   submitText: {
     color: '#ffffff',
@@ -129,8 +137,8 @@ const styles = StyleSheet.create({
     color: '#48BF84',
   },
   containerFatherInput: {
-    flex: 1,
-    flexDirection: 'column',
+   // flex: 1,
+   // flexDirection: 'column',
   },
   background: {
     flex: 1,
@@ -148,18 +156,49 @@ const styles = StyleSheet.create({
     // flex: 1,
     flexDirection: 'row',
     width: '90%',
+  //  height: '7,5%'
     // paddingBottom: 50,
   },
   Input: {
     //marginTop: 25,
     backgroundColor: '#ffffff',
     width: '70%',
-    height: 40,
-    // marginBottom: 15,
+   // marginBottom: 15,
     color: '#000000',
-    fontSize: 18,
+    fontSize: 17,
+    //padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+   // borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderBottomLeftRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
-    paddingLeft: 40,
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
+    height: 45
+  },
+  InputEmail: {
+    //marginTop: 25,
+    backgroundColor: '#ffffff',
+    width: '100%',
+   // marginBottom: 15,
+    color: '#000000',
+    fontSize: 17,
+    //padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+   // borderRadius: 25,
+   // borderTopLeftRadius: 25,
+  //  borderBottomLeftRadius: 25,
+     borderRadius: 25,
+    borderColor: '#ffffff',
+    fontFamily: 'Outfit-Regular',
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
+    height: 45
   },
   /* Input: {
     marginTop: 25,
@@ -178,10 +217,10 @@ const styles = StyleSheet.create({
     width: '70%',
     height: 45,
     // marginBottom: 15,
-    color: '#525252',
+    color: '#000000',
     fontSize: 20,
     fontFamily: 'Outfit-Regular',
-    paddingLeft: 40,
+    paddingLeft: 15,
   },
   btnSubmit: {
     padding: 10,
@@ -192,7 +231,10 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+   // borderRadius: 7,
+    borderTopRightRadius: 25,
+    borderBottomRightRadius: 25,
+    elevation: 4,
     // paddingTop: 50,
   },
 });

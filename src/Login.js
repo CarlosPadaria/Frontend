@@ -32,8 +32,8 @@ const Login = ({navigation}) => {
   const [inputEmail, setInputEmail] = useState(styles.inputEmail);
   const [inputSenha, setInputSenha] = useState(styles.inputSenha);
   const [carregando, setCarregando] = useState(false);
-  const [mensagemEmail, setMensagemEmail] = useState('');
-  const [mensagemSenha, setMensagemSenha] = useState('');
+  const [mensagemEmail, setMensagemEmail] = useState("");
+  const [mensagemSenha, setMensagemSenha] = useState("");
   const [loginAceito, setLoginAceito] = useState(false);
   const [verificar, setVerificar] = useState(false);
   // ADICIONAR USE EFFECT PARA VERIFICAR SE OS CAMPOS ESTÃO VÁZIOS!
@@ -46,20 +46,28 @@ const Login = ({navigation}) => {
   }, [verificar]);
 
   useEffect(() => {
-    setEmail(email.replace(/ /g, ''));
-    setInputEmail({
-      ...styles.inputEmail,
-      borderColor: '#000000',
-    });
+    //setEmail(email.replace(/ /g, ''));
+    if (email != '') {
+      setInputEmail({
+        ...styles.inputEmail,
+        borderWidth: 2,
+        borderColor: '#48bf84',
+        elevation: 0,
+      });
+    }
     setMensagemEmail('');
     // console.log(email)
   }, [email]);
 
   useEffect(() => {
-    setInputSenha({
-      ...styles.inputSenha,
-      borderColor: '#000000',
-    });
+    if (senha != '') {
+      setInputSenha({
+        ...styles.inputSenha,
+        borderWidth: 2,
+        borderColor: '#48bf84',
+        elevation: 0,
+      });
+    }
     setMensagemSenha('');
   }, [senha]);
   // console.log(carregando);
@@ -70,11 +78,13 @@ const Login = ({navigation}) => {
 
   const btnSubmit = () => {
     let deveCarregar = true;
-    console.log("hello, world")
+    console.log('hello, world');
     if (email === '') {
       setInputEmail({
         ...styles.inputEmail,
+        borderWidth: 2,
         borderColor: 'red',
+        elevation: 4,
       });
       setMensagemEmail('Email não pode ser vazio');
       deveCarregar = false;
@@ -83,6 +93,8 @@ const Login = ({navigation}) => {
       setInputSenha({
         ...styles.inputSenha,
         borderColor: 'red',
+        borderWidth: 2,
+        elevation: 4,
       });
       setMensagemSenha('Senha não pode ser vazia');
       deveCarregar = false;
@@ -101,6 +113,7 @@ const Login = ({navigation}) => {
           setInputEmail({
             ...styles.inputEmail,
             borderColor: '#ff0000',
+            borderWidth: 2,
           });
           setMensagemEmail('Email ou Senha incorretos');
           console.log('faiou');
@@ -127,11 +140,31 @@ const Login = ({navigation}) => {
           placeholder="Email"
           style={inputEmail}
           value={email}
+          onFocus={() => {
+            setInputEmail({
+              ...styles.inputEmail,
+              borderWidth: 2,
+              borderColor: '#48bf84',
+              elevation: 4,
+            });
+            setMensagemEmail('');
+          }}
+          onBlur={() => {
+            setMensagemEmail('');
+            setInputEmail({
+              ...styles.inputEmail,
+              borderWidth: 2,
+              elevation: 4,
+            });
+          
+          }
+        }
           onChangeText={setEmail}
           autoCorrect={false}
           autoComplete={'email'}
           maxLength={100}
           autoCapitalize={'none'}
+          placeholderTextColor={'#474747'}
         />
         <Icon name="mail" style={styles.IconEmail} size={25}></Icon>
         <Text style={styles.mensagemEmail}>{mensagemEmail}</Text>
@@ -144,6 +177,26 @@ const Login = ({navigation}) => {
           secureTextEntry={true}
           maxLength={32}
           autoCapitalize={'none'}
+          placeholderTextColor={'#474747'}
+          onFocus={() => {
+            setMensagemSenha('');
+            setInputSenha({
+              ...styles.inputSenha,
+             // borderWidth: 2,
+              borderColor: '#48bf84',
+              elevation: 0,
+            });
+          }}
+          onBlur={() => {
+            setMensagemSenha('');
+          
+         
+            setInputSenha({
+              ...styles.inputSenha,
+             // borderWidth: 0,
+              elevation: 4,
+            });
+          }}
         />
         <Icon name="lock" style={styles.IconSenha} size={29}></Icon>
         <Text style={styles.mensagemEmail}>{mensagemSenha}</Text>
@@ -151,13 +204,30 @@ const Login = ({navigation}) => {
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.btnRegister}
-          onPress={() => {
-            navigation.navigate('Cadastro');
-          }}>
-          <Text style={styles.createAccountText}>Criar conta</Text>
-        </TouchableOpacity>
+        <Text style={styles.createAccountText}>
+          Não possui conta?
+          <Text
+            onPress={() => {
+              setInputSenha({
+                ...styles.inputSenha,
+               // borderWidth: 0,
+               // borderColor: '#48bf84',
+                elevation: 4,
+              });
+              setMensagemSenha('');
+              setInputEmail({
+                ...styles.inputEmail,
+              //  borderWidth: 0,
+                elevation: 4
+              })
+              setMensagemEmail('');
+              navigation.navigate('Cadastro');
+            }}
+            style={styles.createAccountTextButton}>
+            {' '}
+            Crie agora!
+          </Text>
+        </Text>
       </View>
     </KeyboardAvoidingView>
   );

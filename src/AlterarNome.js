@@ -31,6 +31,7 @@ const AlterarNome = ({navigation}) => {
   const [verificar, setVerificar] = useState(false);
   const btnCancel = () => {
     setNome(user.NOME);
+    navigation.navigate('Options');
   };
   const removerEspacos = str => {
     str = str.replace(/^\s+/g, '');
@@ -73,7 +74,7 @@ const AlterarNome = ({navigation}) => {
     } else {
       setStyleInput({
         ...styleInput,
-        borderColor: '#D6D6D6',
+        borderColor: '#ffffff',
       });
       setMensagemNome('');
       return true;
@@ -91,6 +92,7 @@ const AlterarNome = ({navigation}) => {
   }, [verificar]);
   return (
     <KeyboardAvoidingView style={styles.background}>
+      
       <TextInput
         style={styleInput}
         value={nome}
@@ -124,30 +126,32 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#ffffff',
-    width: '70%',
-    //marginBottom: 15,
-    marginTop: 35,
+    width: '80%',
+    marginTop: 50,
+   // marginBottom: 15,
     color: '#000000',
     fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-   // borderLeftWidth: 2,
-    marginBottom: 15,
-   // borderRadius: 30,
-    borderColor: '#D6D6D6',
-  //borderBottomColor: '#ebebeb',
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
   },
   btnSubmit: {
     padding: 10,
     marginBottom: 15,
     marginLeft: 20,
+    marginRight: 20,
     backgroundColor: '#48BF84',
     width: '30%',
-    height: 45,
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 28,
     // paddingTop: 50,
   },
   btnCancel: {
@@ -156,11 +160,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     backgroundColor: '#cc0000',
     width: '30%',
-    height: 45,
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 28,
     // paddingTop: 50,
+   // padding: 10,
   },
   background: {
     flex: 1,
@@ -176,13 +181,17 @@ const styles = StyleSheet.create({
     // flex: 1,
     flexDirection: 'row',
     width: '90%',
+  //  height: '7,5%'
+   //paddingTop: 10
     // paddingBottom: 50,
   },
   submitText: {
     color: '#ffffff',
     fontSize: 18,
-    //fontWeight: 'bold',
-    fontFamily: 'Outfit-SemiBold',
+   // fontWeight: 'bold',
+   // padding: 50,
+    
+    fontFamily: 'Outfit-Regular',
   },
 });
 export default AlterarNome;

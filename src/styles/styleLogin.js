@@ -2,19 +2,26 @@ import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
     btnRegister:{
-      marginTop: 10
+   /*   marginTop: 10,
+      padding: 10,
+      borderWidth: 0,*/
     },
     createAccountText:{
-      color: '#000000'
+      color: '#000000',
+     marginTop: 20,
+    },
+    createAccountTextButton:{
+      color: '#48BF84',
+      marginTop: 15,
     },
     IconEmail:{
       position: 'absolute',
       top: 13,
-      left: 25,
+      left: 28,
     },
     IconSenha:{
       position: 'absolute',
-      top: 90,
+      top: 95,
       left: 25,
     },
     background: {
@@ -34,13 +41,13 @@ export const styles = StyleSheet.create({
     mensagemSenha: {
       // right: 12,
       //flex:1,
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
       color: '#ff0000',
     },
     mensagemEmail: {
       // right: 12,
       //flex:1,
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
       color: '#ff0000',
     },
     logoContainer: {
@@ -55,10 +62,14 @@ export const styles = StyleSheet.create({
       color: '#000000',
       fontSize: 17,
       padding: 10,
-      borderBottomWidth: 2,
-      borderColor: '#000000',
+      borderWidth: 2,
+      borderRadius: 25,
+      borderColor: '#ffffff',
       fontFamily: 'Outfit-Regular',
-      paddingLeft:40
+      
+      paddingLeft:40,
+      elevation: 4,
+     // borderWidth: 2,
     },
     inputEmail: {
       backgroundColor: '#ffffff',
@@ -67,10 +78,14 @@ export const styles = StyleSheet.create({
       color: '#000000',
       fontSize: 17,
       padding: 10,
-      borderBottomWidth: 2,
-      borderColor: '#000000',
+      borderWidth: 2,
+      borderRadius: 25,
+      borderColor: '#ffffff',
       fontFamily: 'Outfit-Regular',
-      paddingLeft:40
+      
+      paddingLeft:40,
+      elevation: 4,
+     // borderWidth: 2,
     },
     btnSubmit: {
       

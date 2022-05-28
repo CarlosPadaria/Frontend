@@ -19,25 +19,32 @@ import {
 } from 'react-native';
 import Api from './Api';
 import {AuthContext} from './contexts/Auth';
-import Icon from 'react-native-vector-icons/AntDesign';
+//import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const ListaReceitas = ({navigation}) => {
-  const {logged, setLogged, user, setUser, loading, setLoading, setPage, page} = useContext(AuthContext);
+  const {logged, setLogged, user, setUser, loading, setLoading, setPage, page} =
+    useContext(AuthContext);
   // INVERTER O ARRAY DE RECEITAS PARA QUE APAREÇA O ULTIMO CADASTRADO
-  const [receitas, setReceitas] = useState([]);
-  const [navegarPaginaReceita, setNavegarPaginaReceita] = useState(false)
+  const [receitas, setReceitas] = useState([{}]);
+  const [navegarPaginaReceita, setNavegarPaginaReceita] = useState(false);
   const [modalActive, setModalActive] = useState(false);
   const [modalApagar, setModalApagar] = useState(false);
   const [checkBox, setCheckBox] = useState(false);
-  const [filteredData, setFilteredData] = useState([{}])
+  const [filteredData, setFilteredData] = useState([{}]);
   const [search, setSearch] = useState('');
   useEffect(() => {
     CarregarReceitas();
-  }, [,loading]);
+  }, [, loading]);
 
   useEffect(() => {
     console.log(receitas);
   }, [receitas]);
 
+  /*useEffect(()=>{
+    if(search === ''){
+      setFilteredData(receitas)
+    }
+  },[search])*/
   /*const AbrirModal = () => {
     modalizeRef.current?.open();
   }*/
@@ -46,8 +53,8 @@ const ListaReceitas = ({navigation}) => {
       try {
         const carregar = await Api.get('/receitas');
 
-        setReceitas(carregar.data.reverse());
-        setFilteredData(carregar.data.reverse())
+        setReceitas(carregar.data);
+        setFilteredData(carregar.data.reverse());
       } catch {
         console.log('falha ao carregar');
       }
@@ -55,74 +62,71 @@ const ListaReceitas = ({navigation}) => {
     funcCarregar();
   };
 
-  const ApagarReceita = () =>{
+  const ApagarReceita = () => {
     const funcApagar = async () => {
       try {
         const apagar = await Api.delete(`/receitas/${page}`);
-        
       } catch {
         console.log('falha ao apagar');
       }
     };
     funcApagar();
-  }
-  
-  const SearchFilter = (text) =>{
-    if(text){
-      const newData = receitas.filter((item) =>{
-        const itemData = item.TITULO ? item.TITULO.toUpperCase() : ''.toUpperCase() 
+  };
+
+  const SearchFilter = text => {
+    if (text) {
+      const newData = receitas.filter(item => {
+        const itemData = item.TITULO
+          ? item.TITULO.toUpperCase()
+          : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
-    setFilteredData(newData);
-    setSearch(text);
-    }
-    else{
-      setFilteredData(receitas)
+      setFilteredData(newData.reverse());
+      setSearch(text);
+    } else {
+      setFilteredData(receitas.reverse());
       setSearch(text);
     }
-
-  }
+  };
 
   return (
     <View style={{backgroundColor: '#48BF84', flex: 1, marginBottom: 10}}>
-
       <View style={{alignItems: 'center', marginTop: 15, marginBottom: 0}}>
-        
-        <TextInput style={styles.input}
+        <TextInput
+          style={styles.input}
           value={search}
-          onChangeText={(text) => SearchFilter(text)}
-          placeholder='Pesquisar receita, ex: "pizza"'
-        >
-
-        </TextInput>
+          onChangeText={text => SearchFilter(text)}
+          placeholder='Pesquisar receita, ex: "pizza"'></TextInput>
       </View>
-      <Icon size={25} style={styles.Icon} name='search1'></Icon>
+      <Icon size={25} style={styles.Icon} name="magnify"></Icon>
       <Modal
         visible={modalActive}
         onRequestClose={() => {
-          setModalActive(false)
+          setModalActive(false);
         }}
-        transparent={true}
-      >
+        transparent={true}>
         <View style={styles.outerview}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}></Text>
-            <Pressable onPress={()=>{
-              setModalActive(false)
-              navigation.navigate('EditarReceita');
-            }}>
+            <Pressable
+              onPress={() => {
+                setModalActive(false);
+                navigation.navigate('EditarReceita');
+              }}>
               <Text>Editar</Text>
             </Pressable>
-            <Pressable onPress={()=>{
-              setModalActive(false)
-              setModalApagar(true)
-            }}>
+            <Pressable
+              onPress={() => {
+                setModalActive(false);
+                setModalApagar(true);
+              }}>
               <Text>Excluir</Text>
             </Pressable>
-            <Pressable onPress={()=>{
-              setModalActive(false)
-            }}>
+            <Pressable
+              onPress={() => {
+                setModalActive(false);
+              }}>
               <Text>Fechar</Text>
             </Pressable>
           </View>
@@ -132,35 +136,32 @@ const ListaReceitas = ({navigation}) => {
       <Modal
         visible={modalApagar}
         onRequestClose={() => {
-          setModalApagar(false)
+          setModalApagar(false);
         }}
-        transparent={true}
-      >
+        transparent={true}>
         <View style={styles.outerview}>
           <View style={styles.modalView}>
-            
-          
             <CheckBox
               onValueChange={newValue => setCheckBox(newValue)}
-              value={checkBox}
-            ></CheckBox>
+              value={checkBox}></CheckBox>
             <Text style={{marginBottom: 10}}>Deseja excluir a receita?</Text>
-            <Pressable onPress={()=>{
-              console.log("apagar");
-              if(checkBox === true){
-                ApagarReceita();
-                setModalApagar(false);
-                setLoading(!loading);
-              }
-            }}>
+            <Pressable
+              onPress={() => {
+                console.log('apagar');
+                if (checkBox === true) {
+                  ApagarReceita();
+                  setModalApagar(false);
+                  setLoading(!loading);
+                }
+              }}>
               <Text>Excluir</Text>
             </Pressable>
-            <Pressable onPress={()=>{
-              setModalApagar(false)
-            }}>
+            <Pressable
+              onPress={() => {
+                setModalApagar(false);
+              }}>
               <Text>Cancelar</Text>
             </Pressable>
-           
           </View>
         </View>
       </Modal>
@@ -168,8 +169,9 @@ const ListaReceitas = ({navigation}) => {
       <FlatList
         data={filteredData}
         //keyExtractor={(item, index) => index.toString()}
-        style={{marginTop: 15, backgroundColor: '#ebebeb',}}
+        style={{marginTop: 15, backgroundColor: '#F0F0F0'}}
         contentContainerStyle={{
+         // flex: 1,
           marginHorizontal: 20,
           alignItems: 'center',
           justifyContent: 'center',
@@ -177,86 +179,140 @@ const ListaReceitas = ({navigation}) => {
         renderItem={({item}) => (
           // do the css to get the full image
           <View style={styles.listItem}>
-            <SafeAreaView key={item.ID_RECEITA}>
+            <SafeAreaView key={item.ID_RECEITA} style={{borderRadius: 30}}>
               <Image
                 source={{uri: item.IMAGEM}}
                 style={{
                   width: 350,
-                  height: 250,
+                  height: 150,
+                  // elevation: 5,
+                  //
                 }}></Image>
-              <TouchableOpacity onPress={()=>{
-                setPage(item.ID_RECEITA);
-                setNavegarPaginaReceita(true)
-                navigation.navigate('PaginaReceita')
-              //setModalActive(true);
-                // open a little window to show the ingredients and steps
-              }}/*onPress={()=>{
+              <TouchableOpacity
+                onPress={() => {
+                  setPage(item.ID_RECEITA);
+                  setNavegarPaginaReceita(true);
+                  navigation.navigate('PaginaReceita');
+                  //setModalActive(true);
+                  // open a little window to show the ingredients and steps
+                }} /*onPress={()=>{
                 
-                }}*/>
+                }}*/
+              >
                 <Text
                   style={{
                     marginTop: 18,
                     fontSize: 20,
                     textAlign: 'center',
                     fontFamily: 'Outfit-Regular',
+                    color: '#000000',
                   }}>
                   {item.TITULO}
                 </Text>
               </TouchableOpacity>
               {item.ID_USUARIO === user.ID_USUARIO ? (
-                <TouchableOpacity onPress={() =>{
-                  setModalActive(true);
-                  setPage(item.ID_RECEITA);
-                }} >
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalActive(true);
+                    setPage(item.ID_RECEITA);
+                  }}>
                   <Text>Editar</Text>
                 </TouchableOpacity>
               ) : null}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    //backgroundColor: 'blue',
+                    padding: 50,
+                  }}>
+                    
+                  <Icon size={46} color='#48BF84' name="clock-outline"></Icon>
+                  <Text
+                  style={{
+                    fontSize: 18,
+                  }}
+                  >tempo</Text>
+                  <Text
+                  style={{
+                    fontSize: 26,
+                    color: '#48BF84'
+                  }}
+                  >1H</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: 50,
+                  }}>
+                  <Icon size={46} color='#48BF84' name="food-fork-drink"></Icon>
+                  <Text style={{
+                    fontSize: 18,
+                  }}>rendimento</Text>
+                  <Text
+                  style={{
+                    color: '#48BF84',
+                    fontSize: 26,
+                  }}
+                  >1</Text>
+                </View>
+              </View>
             </SafeAreaView>
           </View>
         )}
       />
-      
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  Icon:{
+  Icon: {
     position: 'absolute',
     top: 27,
     left: 290,
   },
-  input:{
-    paddingRight:44,
+  input: {
+    paddingRight: 44,
     backgroundColor: '#ffffff',
     width: '70%',
     //marginBottom: 15,
-   // marginTop: 35,
+    // marginTop: 35,
     color: '#000000',
     fontSize: 17,
     padding: 10,
-    borderBottomWidth: 2,
-   // borderLeftWidth: 2,
+    // borderBottomWidth: 2,
+    // borderLeftWidth: 2,
     borderRadius: 30,
-    borderColor: '#D6D6D6',
-  //borderBottomColor: '#ebebeb',
+    // borderColor: '#D6D6D6',
+    //borderBottomColor: '#ebebeb',
     fontFamily: 'Outfit-Regular',
   },
-  modalText:{
+  modalText: {
     marginBottom: 15,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Outfit-Regular',
+    color: '#595959',
   },
-  outerview:{
+  outerview: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center'
+    // backgroundColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
   },
-  modalView:{
+  modalView: {
     backgroundColor: 'white',
     borderRadius: 30,
-    padding: 35,
-    width: 200,
+    //padding: 35,
+    width: '90%',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -265,23 +321,27 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    // elevation: 5,
   },
   container: {
     flex: 1,
-    
+
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ffffff',
     marginBottom: 30,
   },
   listItem: {
-    padding: 30,
-    marginTop: 10,
+    //padding: 30,
+    borderRadius: 10,
+    marginTop: 40,
     // paddingLeft: 10,
     // marginRight: 10,
-    shadowOpacity: 10,
-    shadowRadius: 0,
+    //shadowOpacity: 10,
+    //  shadowRadius: 0,
+    // elevation: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#ffffff',
   },
 });

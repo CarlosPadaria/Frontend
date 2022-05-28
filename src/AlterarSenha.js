@@ -44,7 +44,7 @@ const AlterarSenha = ({navigation}) => {
     if (confirmarSenha === '') {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
-        borderColor: '#D6D6D6',
+        borderColor: '#ffffff',
       });
       setMensagemConfirmarSenha('');
     } else if (senha != confirmarSenha) {
@@ -57,7 +57,7 @@ const AlterarSenha = ({navigation}) => {
     } else {
       setStyleInputConfirmarSenha({
         ...styleInputConfirmarSenha,
-        borderColor: '#00ff00',
+        borderColor: '#48BF84',
       });
       setMensagemConfirmarSenha('');
     }
@@ -70,7 +70,7 @@ const AlterarSenha = ({navigation}) => {
       setMensagemSenha('');
       setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#D6D6D6',
+        borderColor: '#ffffff',
       });
     } else if (senha.length < 6) {
       setStyleInputSenha({
@@ -82,7 +82,7 @@ const AlterarSenha = ({navigation}) => {
     } else {
       setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#00ff00',
+        borderColor: '#48BF84',
       });
       setMensagemSenha('');
     }
@@ -202,73 +202,79 @@ const styles = StyleSheet.create({
   },
   inputSenha: {
     backgroundColor: '#ffffff',
-    width: '70%',
- //   marginBottom: 15,
-  //  marginTop: 35,
+    width: '80%',
+   // marginTop: 50,
+   // marginBottom: 15,
     color: '#000000',
     fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-   // borderLeftWidth: 2,
-    marginBottom: 15,
-   // borderRadius: 30,
-    borderColor: '#D6D6D6',
-  //borderBottomColor: '#ebebeb',
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
   },
   inputConfirmarSenha: {
     backgroundColor: '#ffffff',
-    width: '70%',
-    //marginBottom: 15,
-   // marginTop: 35,
+    width: '80%',
+   // marginTop: 50,
+   // marginBottom: 15,
     color: '#000000',
     fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-   // borderLeftWidth: 2,
-    marginBottom: 15,
-   // borderRadius: 30,
-    borderColor: '#D6D6D6',
-  //borderBottomColor: '#ebebeb',
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
   },
   passMsg: {
     color: '#ff0000',
   },
   textoDoInput: {
-    marginTop: 20,
+    marginTop: 25,
     backgroundColor: '#ffffff',
     width: '70%',
     height: 45,
     // marginBottom: 15,
-    color: '#525252',
+    color: '#000000',
     fontSize: 20,
     fontFamily: 'Outfit-Regular',
-    paddingLeft: 0,
+    paddingLeft: 15,
   },
   btnSubmit: {
     padding: 10,
     marginBottom: 15,
     marginLeft: 20,
+    marginRight: 20,
     backgroundColor: '#48BF84',
     width: '30%',
-    height: 45,
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 28,
+    marginTop: 10,
     // paddingTop: 50,
   },
   btnCancel: {
     padding: 10,
     marginBottom: 15,
     marginLeft: 20,
+    marginTop: 10,
     backgroundColor: '#cc0000',
     width: '30%',
-    height: 45,
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 28,
     // paddingTop: 50,
+   // padding: 10,
   },
   background: {
     flex: 1,

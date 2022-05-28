@@ -37,7 +37,7 @@ const DesativarConta = ({navigation}) => {
   useEffect(() => {
     setStyleInputSenha({
         ...styleInputSenha,
-        borderColor: '#D6D6D6',
+        borderColor: '#ffffff',
     })
     setMensagemSenha('');
   },[senha])
@@ -45,13 +45,13 @@ const DesativarConta = ({navigation}) => {
   useEffect(() => {
     setStyleInputEmail({
         ...styleInputEmail,
-        borderColor: '#D6D6D6',
+        borderColor: '#ffffff',
     })
     setMensagemEmail('')
   }, [email])
   
   const handleSubmit = () => {
-    Valido = true;
+    let Valido = true;
     if (email === '') {
       setStyleInputEmail({
         ...styleInputEmail,
@@ -110,14 +110,29 @@ const DesativarConta = ({navigation}) => {
 
   return (
     <KeyboardAvoidingView style={styles.background}>
+      <Text style={styles.textoDoInput}>Email</Text>
       <TextInput
         placeholder="Digite seu email para confirmar"
         style={styleInputEmail}
         value={email}
         onChangeText={setEmail}
         autoCorrect={false}
+        onFocus={() => {
+          setStyleInputEmail({
+            ...styleInputEmail,
+            borderColor: '#48BF84',
+          });
+          setMensagemEmail('');
+        }}
+        onBlur={() => {
+          setStyleInputEmail({
+            ...styleInputEmail,
+            borderColor: '#ffffff',
+          })
+        }}
         maxLength={100}></TextInput>
       <Text style={styles.desativarContaText}>{mensagemEmail}</Text>
+      <Text style={styles.textoDoInput}>Senha</Text>
       <TextInput
         placeholder="Digite sua senha para confirmar"
         style={styleInputSenha}
@@ -125,7 +140,22 @@ const DesativarConta = ({navigation}) => {
         onChangeText={setSenha}
         secureTextEntry={true}
         autoCorrect={false}
-        maxLength={32}></TextInput>
+        maxLength={32}
+        onFocus={() => {
+          setStyleInputSenha({
+            ...styleInputSenha,
+            borderColor: '#48BF84',
+          });
+          setMensagemEmail('');
+        }}
+        
+        onBlur={() => {
+          setStyleInputSenha({
+            ...styleInputSenha,
+            borderColor: '#ffffff',
+          })
+        }}>
+        </TextInput>
       <Text style={styles.desativarContaText}>{mensagemSenha}</Text>
       <View style={styles.containerFatherInput}>
         <View style={styles.inputContainer}>
@@ -150,13 +180,26 @@ const DesativarConta = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  textoDoInput: {
+    marginTop: 25,
+    backgroundColor: '#ffffff',
+    width: '70%',
+    height: 45,
+    // marginBottom: 15,
+    color: '#525252',
+    fontSize: 20,
+    fontFamily: 'Outfit-Regular',
+    paddingLeft: 15,
+  },
   desativarContaText: {
     color: '#ff0000',
+    marginBottom: 25,
   },
-  checkBox: {},
+  checkBox: {
+    marginBottom: 22,
+  },
   mensagemNome: {
     color: '#ff0000',
-    marginBottom: 10,
   },
   containerFatherInput: {
     flex: 1,
@@ -164,48 +207,52 @@ const styles = StyleSheet.create({
   },
   inputSenha: {
     backgroundColor: '#ffffff',
-    width: '70%',
-    //marginBottom: 15,
-    marginTop: 20,
+    width: '80%',
+   // marginTop: 50,
+   // marginBottom: 15,
     color: '#000000',
     fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-   // borderLeftWidth: 2,
-    marginBottom: 15,
-   // borderRadius: 30,
-    borderColor: '#D6D6D6',
-  //borderBottomColor: '#ebebeb',
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
   },
 
   inputEmail: {
     backgroundColor: '#ffffff',
-    width: '70%',
-    //marginBottom: 15,
-    marginTop: 20,
+    width: '80%',
+   // marginTop: 50,
+   // marginBottom: 15,
     color: '#000000',
     fontSize: 17,
-    padding: 10,
-    borderBottomWidth: 2,
-   // borderLeftWidth: 2,
-    marginBottom: 15,
-   // borderRadius: 30,
-    borderColor: '#D6D6D6',
-  //borderBottomColor: '#ebebeb',
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
+   // marginTop: 20,
   },
   btnSubmit: {
     padding: 10,
-    marginTop: 45,
+    marginTop: 20,
     marginBottom: 15,
     marginLeft: 80,
     backgroundColor: '#cc0000',
     width: '30%',
-    height: 45,
+    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 28,
+
     // paddingTop: 50,
   },
   btnCancel: {

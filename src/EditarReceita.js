@@ -30,6 +30,7 @@ const EditarReceita = ({navigation}) => {
   const [response, setResponse] = useState({});
   const [mensagem, setMensagem] = useState('');
   const [verificar, setVerificar] = useState(false);
+  const [navegar, setNavegar]= useState(false);
   let realizarCadastro = {};
   let realizarCadastroIngrediente = {};
   let realizarCadastroPasso = {};
@@ -40,6 +41,12 @@ const EditarReceita = ({navigation}) => {
     CarregarPassosIngredientes();
     // handleListarIngredientes();
   }, []);
+
+  useEffect(()=>{
+    if(navegar){
+      navigation.navigate('ListarReceitas');
+    }
+  }, [navegar])
 
   const handleAddIngrediente = () => {
     setIngredientes([...ingredientes, {NOME: ''}]);
@@ -87,16 +94,10 @@ const EditarReceita = ({navigation}) => {
     ApagarPassosIngredientes();
     AtualizarIngredientesPassos();
     setLoading(!loading);
+    setNavegar(true);
+   
   };
 
-  const ListarIngredientes = () =>{
-      for(i = 0; i < ingredientes.length; i++){
-          console.log(ingredientes[i].NOME)
-      }
-      for(i = 0; i < passos.length; i++){
-          console.log(passos[i].DESCRICAO)	
-      }
-  }
   const AtualizarIngredientesPassos = () => {
     if (ingredientes.length > 0) {
       const CadastrarIngredientes = async () => {
@@ -277,9 +278,6 @@ const EditarReceita = ({navigation}) => {
           <TouchableOpacity style={styles.btnSubmit} onPress={handleSubmit}>
             <Text style={styles.ingredienteText}>Editar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSubmit} onPress={ListarIngredientes}>
-            <Text style={styles.ingredienteText}>Listar</Text>
-          </TouchableOpacity>
           <Text style={{color: 'red'}}>{mensagem}</Text>
         </View>
       </ScrollView>
@@ -289,26 +287,24 @@ const EditarReceita = ({navigation}) => {
 
 const styles = StyleSheet.create({
   // do the styles for the input
-  /*
-  */ 
   addIngrediente: {
     backgroundColor: '#48BF84',
-    width: '50%',
+    width: '70%',
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 28,
     marginBottom: 20,
     // paddingTop: 50,
   },
   btnSubmit: {
     marginTop: 20,
     backgroundColor: '#48BF84',
-    width: '70%',
+    width: '50%',
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 28,
     marginBottom: 20,
     // paddingTop: 50,
   },
@@ -324,7 +320,7 @@ const styles = StyleSheet.create({
     width: '70%',
     height: 45,
     // marginBottom: 15,
-    color: '#525252',
+    color: '#000000',
     fontSize: 20,
     fontFamily: 'Outfit-Regular',
     paddingLeft: 40,
@@ -341,35 +337,57 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   input: {
-    backgroundColor: '#F7F8F8',
-    width: '50%',
-    marginBottom: 15,
-    marginTop: 20,
+    backgroundColor: '#ffffff',
+    width: '70%',
+    //marginTop: 50,
+   // marginBottom: 15,
     color: '#000000',
     fontSize: 17,
-    padding: 10,
-    borderWidth: 2,
-    marginBottom: 15,
-  
-    borderColor: '#F7F8F8',
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
-    borderRadius: 14,
-   // border
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
   },
   inputIngrediente: {
-    backgroundColor: '#F7F8F8',
-    width: '50%',
-    marginBottom: 15,
-    marginTop: 20,
+    backgroundColor: '#ffffff',
+    width: '70%',
+    //marginTop: 50,
+   // marginBottom: 15,
     color: '#000000',
     fontSize: 17,
-    padding: 10,
-    borderWidth: 2,
-    marginBottom: 15,
-  
-    borderColor: '#F7F8F8',
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#ffffff',
     fontFamily: 'Outfit-Regular',
-    borderRadius: 14,
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
+    marginBottom: 20,
+  },
+  inputIngredienteFocus: {
+    backgroundColor: '#ffffff',
+    width: '70%',
+    //marginTop: 50,
+   // marginBottom: 15,
+    color: '#000000',
+    fontSize: 17,
+   // padding: 10,
+    //borderWidth: 2,
+    //: '#000000',
+    borderRadius: 25,
+    borderColor: '#48BF84',
+    fontFamily: 'Outfit-Regular',
+    paddingLeft:20,
+    elevation: 4,
+    borderWidth: 2,
+    marginBottom: 20,
   },
   background: {
     flex: 1,
