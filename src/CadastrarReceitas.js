@@ -21,6 +21,7 @@ import {AuthContext} from './contexts/Auth';
 const CadastrarReceitas = ({navigation}) => {
   // do a dynamic input for names
   const {logged, setLogged, user, setUser, loading, setLoading} = useContext(AuthContext);
+  const [navegar, setNavegar] = useState(false);
   const [ingredientes, setIngredientes] = useState([]);
   const [passos, setPassos] = useState([]);
   const [imagem, setImagem] = useState('');
@@ -29,25 +30,42 @@ const CadastrarReceitas = ({navigation}) => {
   const [response, setResponse] = useState({});
   const [mensagem, setMensagem] = useState('');
   const [verificar, setVerificar] = useState(false);
+  const [verificar2, setVerificar2] = useState(false);
   const [tempo, setTempo] = useState('');
-  let realizarCadastro = {};
+ // let realizarCadastro = {};
   let realizarCadastroIngrediente = {};
   let realizarCadastroPasso = {};
   let i = 0;
 
 
   useEffect(() =>{
+    if(navegar === true){
+      navigation.navigate('ListarReceitas');
+    }
+  },[navegar])
+  useEffect(() =>{
     if(verificar === true)
     {
-        
-        CadastrarIngredientesPassos();
+        CadastrarIngredientes();
+        setVerificar2(true);
+       // setNavegar(true);
     }
   }, [verificar])
 
+  useEffect(() =>{
+    if(verificar2 === true)
+    {
+      CadastrarPassos();
+    }
+  },[verificar2])
+  useEffect(() =>{
+    setNavegar(false);
+  },[])
 
 
-  const CadastrarIngredientesPassos = () => {
-     const CadastrarIngredientes = async () => {
+
+  const CadastrarIngredientes = () => {
+     const CadastrarIngrediente = async () => {
         for (i = 0; i < ingredientes.length; i++) {
           realizarCadastroIngrediente = await Api.post('/ingredientes', {
             ID_RECEITA: response.data.ID_RECEITA,
@@ -55,9 +73,11 @@ const CadastrarReceitas = ({navigation}) => {
           });
         }
       };
-      CadastrarIngredientes();
+      CadastrarIngrediente();
+    }
 
-      const CadastrarPassos = async () => {
+    const CadastrarPassos = () => {
+      const CadastrarPasso = async () => {
         for (i = 0; i < passos.length; i++) {
           realizarCadastroPasso = await Api.post('/passos', {
             ID_RECEITA: response.data.ID_RECEITA,
@@ -66,9 +86,7 @@ const CadastrarReceitas = ({navigation}) => {
           });
         }
       };
-
-      CadastrarPassos();
-      navigation.navigate('ListarReceitas');
+      CadastrarPasso();
   }
 
 
@@ -289,6 +307,15 @@ const CadastrarReceitas = ({navigation}) => {
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <TouchableOpacity style={styles.btnSubmit} onPress={handleSubmit}>
             <Text style={styles.ingredienteText}>Cadastrar Receita</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnSubmit} onPress={
+            ()=>{
+              for(i = 0; i < passos.length; i++){
+                console.log(passos[i].passo)
+              }
+            }
+          }>
+            <Text style={styles.ingredienteText}>Listar Passos</Text>
           </TouchableOpacity>
           <Text style={{color: 'red'}}>{mensagem}</Text>
         </View>

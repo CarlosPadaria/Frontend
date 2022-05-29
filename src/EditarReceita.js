@@ -32,6 +32,7 @@ const EditarReceita = ({navigation}) => {
   const [verificar, setVerificar] = useState(false);
   const [navegar, setNavegar]= useState(false);
   const [tempo, setTempo] = useState('');
+  const [carregarPassos, setCarregarPassos] = useState('');
   let realizarCadastro = {};
   let realizarCadastroIngrediente = {};
   let realizarCadastroPasso = {};
@@ -43,8 +44,14 @@ const EditarReceita = ({navigation}) => {
     // handleListarIngredientes();
   }, []);
 
+  useEffect(() =>{
+    if(carregarPassos === true){
+      AtualizarPassos();
+    }
+  },[carregarPassos])
   useEffect(()=>{
     if(navegar){
+      setLoading(!loading)
       navigation.navigate('ListarReceitas');
     }
   }, [navegar])
@@ -94,13 +101,14 @@ const EditarReceita = ({navigation}) => {
   const handleSubmit = () => {
     AtualizarReceita();
     ApagarPassosIngredientes();
-    AtualizarIngredientesPassos();
-    setLoading(!loading);
-    setNavegar(true);
+  //  AtualizarIngredientesPassos();
+    AtualizarIngredientes()
+   // setLoading(!loading);
+    //setNavegar(true);
    
   };
 
-  const AtualizarIngredientesPassos = () => {
+  const AtualizarIngredientes = () => {
     if (ingredientes.length > 0) {
       const CadastrarIngredientes = async () => {
         for (i = 0; i < ingredientes.length; i++) {
@@ -111,8 +119,11 @@ const EditarReceita = ({navigation}) => {
         }
       };
       CadastrarIngredientes();
+      setCarregarPassos(true);
     }
-    if (passos.length > 0) {
+  }
+  const AtualizarPassos = () => {
+     if (passos.length > 0) {
       const CadastrarPassos = async () => {
         for (i = 0; i < passos.length; i++) {
           realizarCadastroPasso = await Api.post('/passos', {
@@ -124,8 +135,10 @@ const EditarReceita = ({navigation}) => {
       };
 
       CadastrarPassos();
+      setNavegar(true);
     }
-  };
+  }
+   
 
   const ApagarPassosIngredientes = () => {
     const funcApagarPassos = async () => {
